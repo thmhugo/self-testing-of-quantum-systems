@@ -13,8 +13,8 @@
 This equates to finding Bell inequalities which are maximally violated by
 measurement correlations which self-test a corresponding quantum state.
 
-In particular: **relate Mayers-Yao self-testing condition to larger classes of
-entangled states**.
+In particular: *relate Mayers-Yao self-testing condition to larger classes of
+entangled states*.
 
 * Notes
 ** Self testing
