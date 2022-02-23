@@ -36,6 +36,26 @@ Self-testing is a method to infer the underlying physics of a quantum experiment
 in a black box scenario. --  Self-testing of quantum systems: a review, p.1
 #+end_quote
 
+It has both theoretical implications in quantum information theory (as part of
+the general study of quantum correlations) and practical applications in quantum
+computing protocols:
+- validating quantum systems (device-indepent certification)
+- device-independent quantum cryptography
+- device-independent randomness generation
+- ...
+
+*** Definitions
+
+Some notations:
+- $\mathcal{L}(\mathcal{H})$ denotes the set of linear operators acting on an
+  Hilbert space $\mathcal{H}$.
+
+The self-testing scenario (when device-independent, commonly called a Bell
+test):
+- Consider two parties $A$ and $B$.
+
+*** Device-independent scenario
+
 * References
 ** [[file:reference/self-testing-review.pdf][Self-testing of quantum systems: a review (1)]]
 ** [[file:reference/self-testing-apparatus.pdf][Self testing quantum apparatus (2)]]
