@@ -31,7 +31,12 @@ condition to larger classes of entangled states*.
 
 ** Self testing
 
-* Reference
-** [[file:reference/self-testing-review.pdf][Self-testing of quantum systems: a review]]
-** [[file:reference/self-testing-apparatus.pdf][Self testing quantum apparatus]]
-** [[file:reference/bell-nonlocality][Bell nonlocality]]
+#+begin_quote
+Self-testing is a method to infer the underlying physics of a quantum experiment
+in a black box scenario. --  Self-testing of quantum systems: a review, p.1
+#+end_quote
+
+* References
+** [[file:reference/self-testing-review.pdf][Self-testing of quantum systems: a review (1)]]
+** [[file:reference/self-testing-apparatus.pdf][Self testing quantum apparatus (2)]]
+** [[file:reference/bell-nonlocality][Bell nonlocality (3)]]
