@@ -1,10 +1,15 @@
-#+title: Quantum Information Project
+#+title: Quantum Information Project: Self-testing of quantum systems
 #+setupfile: misc/theme-readtheorg.setup
 #+latex_header: \input{misc/header.tex}
 
+Second semester research project within Sorbonne Université's IQ Master's
+degree.
+
+By Hugo Abreu, Fanny Terrier and Hugo Thomas. Supervised by Ivan Šupić.
+
 * Subject
 
-The subject can be found in [[file:reference/project-self-test.pdf][project description]].
+The subject can be found in the [[file:reference/project-self-test.pdf][project description]].
 
 ** Objectives
 
