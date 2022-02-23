@@ -1,7 +1,7 @@
 #+title: Quantum Information Project
 
 * Subject
-** see [[file:~/work/m1/iq/tdqph4cs/Project_Self_Test(1).pdf][project description]]
+** see [[file:reference/project-self-test.pdf][project description]]
 *** Objectives
 
 #+begin_quote
@@ -13,12 +13,13 @@
 This equates to finding Bell inequalities which are maximally violated by
 measurement correlations which self-test a corresponding quantum state.
 
-More precisely: relate Mayers-Yao self-testing
+In particular: **relate Mayers-Yao self-testing condition to larger classes of
+entangled states**.
 
 * Notes
 ** Self testing
 
 * Reference
-** [[file:~/work/m1/iq/tdqph4cs/q-2020-09-30-337.pdf][Self-testing of quantum systems: a review]]
-** [[file:~/work/m1/iq/tdqph4cs/0307205.pdf][Self testing quantum apparatus]]
-** [[file:~/work/m1/iq/tdqph4cs/1303.2849.pdf][Bell nonlocality]]
+** [[file:reference/self-testing-review.pdf][Self-testing of quantum systems: a review]]
+** [[file:reference/self-testing-apparatus.pdf][Self testing quantum apparatus]]
+** [[file:reference/bell-nonlocality][Bell nonlocality]]
