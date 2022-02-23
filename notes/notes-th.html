@@ -1,0 +1,75 @@
+<h1 id="the-self-testing-scenario">The self-testing scenario</h1>
+<p><span class="math inline">ℒ(ℋ)</span> denotes the set of linear
+operators acting on Hilbert space <span
+class="math inline">ℋ</span>.</p>
+<p>We know there exist measurement operators <span
+class="math inline"><em>M</em><sub><em>a</em>|<em>x</em></sub> ∈ ℒ(ℋ)</span>
+acting on Alice’s Hilbert space and satisfying</p>
+<p><span
+class="math display"><em>M</em><sub><em>a</em>|<em>x</em></sub> ≽ 0; ∀<em>a</em>, <em>x</em>∑<sub><em>a</em></sub><em>M</em><sub><em>a</em>|<em>x</em></sub> = <em>I</em><em>d</em><sub><em>A</em></sub></span></p>
+<p>Similarly there exist measurement operators <span
+class="math inline"><em>N</em><sub><em>b</em>|<em>y</em></sub> ∈ ℒ(ℋ)</span>
+acting on Bob’s Hilbert space. The measurement operators are therefore
+projective :</p>
+<p><span
+class="math display">∀<em>a</em>, <em>a</em>′:  <em>M</em><sub><em>a</em>|<em>x</em></sub><em>M</em><sub><em>a</em>′|<em>x</em></sub> = <em>δ</em><sub><em>a</em>, <em>a</em>′</sub><em>M</em><sub><em>a</em>|<em>x</em></sub></span></p>
+<p><span
+class="math display">∀<em>b</em>, <em>b</em>′:  <em>N</em><sub><em>b</em>|<em>y</em></sub><em>N</em><sub><em>b</em>′|<em>y</em></sub> = <em>δ</em><sub><em>b</em>, <em>b</em>′</sub><em>N</em><sub><em>b</em>|<em>y</em></sub></span></p>
+<p>Now, from the Born rule, there must exist some quantum state <span
+class="math inline"><em>ρ</em><sub><em>A</em><em>B</em></sub> ∈ ℒ(ℋ<sub>A</sub>⊗ℋ<sub>B</sub>) ≽ 0</span>,
+and tr<span
+class="math inline"><em>ρ</em><sub><em>A</em><em>B</em></sub></span> = 1
+such that</p>
+<p><span
+class="math display"><em>p</em>(<em>a</em>,<em>b</em>|<em>x</em>,<em>y</em>) = tr[<em>ρ</em><sub><em>A</em><em>B</em></sub><em>M</em><sub><em>a</em>|<em>x</em></sub> ⊗ <em>N</em><sub><em>b</em>|<em>y</em></sub>]</span></p>
+<p>In self-testing, one aims to infer the form of the state and the
+measurement in the trace from knowledge of the correlation <span
+class="math inline"><em>p</em>(<em>a</em>,<em>b</em>|<em>x</em>,<em>y</em>)</span>
+alone, i.e. in device-independent scenario.</p>
+<p><em>Born rule</em> : A key postulate of quantum mechanics which gives
+the probability that a measurement of a quantum system will yield a
+given result. More formally, for a state <span
+class="math inline">$\ket{\psi}$</span> and a <span
+class="math inline"><em>F</em><sub><em>i</em></sub></span> POVM element
+(associated with the measurement outcome <span
+class="math inline"><em>i</em></span>), then the probability of
+obtaining <span class="math inline"><em>i</em></span> when measuring
+<span class="math inline">$\ket{\psi}$</span> is given by</p>
+<p><span class="math display">$$p(i) = \braket{\psi | F_i |
+\psi}$$</span></p>
+<h2 id="physical-assumptions">Physical assumptions</h2>
+<ol type="1">
+<li>The experiment admits a quantum description (state and
+measurement)</li>
+<li>The laboratories of Alice and Bob are located in separate location
+in space and there is no communication between the two
+laboratories.</li>
+<li>The setting <span class="math inline"><em>x</em></span> and <span
+class="math inline"><em>y</em></span> are chosen freely and
+independently of all other systems in the experiment.</li>
+<li>Each round of the experiment is independent of all other rounds a
+physically equivalent to all others (i.e. there exists a single density
+matrix and measurement operators that are valid in every round).</li>
+</ol>
+<h2 id="impossibility-to-infer-exactly-the-references">Impossibility to
+infer exactly the references</h2>
+<ol type="1">
+<li><p><em>Unitary invariance of the trace</em> : one can reproduce the
+statistics of any state <span class="math inline">$\ket{\psi}$</span>
+and measurement <span
+class="math inline">{<em>M</em><sub><em>a</em>|<em>x</em></sub>}, {<em>N</em><sub><em>b</em>|<em>y</em></sub>}</span>
+by instead using the rotated state <span class="math inline">$U \otimes
+V \ket{\psi}$</span> and measurement <span
+class="math inline">{<em>U</em><em>M</em><sub><em>a</em>|<em>x</em></sub><em>U</em><sup>†</sup>}, {<em>V</em><em>N</em><sub><em>b</em>|<em>y</em></sub><em>V</em><sup>†</sup>}</span>,
+where <span class="math inline"><em>U</em>, <em>V</em></span> are
+unitary transformations. Hence, one can never conclude that the state
+was <span class="math inline">$\ket{\psi}$</span> or <span
+class="math inline">$U \otimes V \ket{\psi}$</span>.</p></li>
+<li><p><em>Additional degrees of freedom</em> : a state <span
+class="math inline">$\ket{\psi} \otimes \ket \xi$</span> and
+measurements <span
+class="math inline">{<em>M</em><sub><em>a</em>|<em>x</em></sub> ⊗ <em>I</em><em>d</em><sub><em>ξ</em></sub>}, {<em>N</em><sub><em>b</em>|<em>y</em></sub> ⊗ <em>I</em><em>d</em><sub><em>ξ</em></sub>}</span>
+gives the same correlation as <span
+class="math inline">$\ket{\psi}$</span> and <span
+class="math inline">{<em>M</em><sub><em>a</em>|<em>x</em></sub>}, {<em>N</em><sub><em>b</em>|<em>y</em></sub>}</span>.</p></li>
+</ol>

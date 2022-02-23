@@ -56,6 +56,10 @@ The self-testing scenario (when device-independent, commonly called a Bell
 test):
 - Consider two parties $A$ and $B$.
 
+[[file:notes/notes-th.org][Org]]
+[[file:notes/notes-th.html][HTML]]
+[[file:notes/notes-th.pdf][PDF]]
+
 *** Device-independent scenario
 
 * References
