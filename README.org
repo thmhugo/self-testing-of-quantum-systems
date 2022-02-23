@@ -7,6 +7,8 @@ degree.
 
 By Hugo Abreu, Fanny Terrier and Hugo Thomas. Supervised by Ivan Šupić.
 
+You can find an HTML version of this document in [[https://thmhugo.github.io/qi-project/]]
+
 * Subject
 
 The subject can be found in the [[file:references/project-self-test.pdf][project description]].
