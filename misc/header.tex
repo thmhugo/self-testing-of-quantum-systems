@@ -1,0 +1,172 @@
+%%%%%%%%%%%%%%%%%%
+% General config %
+%%%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+\usepackage[margin=1.2in]{geometry}
+\usepackage[english]{babel}
+
+%%%%%%%%%%%%
+% Packages %
+%%%%%%%%%%%%
+
+% Math packages
+\usepackage{amsthm}
+\usepackage{amsmath,amssymb}
+\usepackage{amsfonts,mathtools}
+% \usepackage{thmbox}
+\usepackage{bm}
+\usepackage{proof-at-the-end}
+\usepackage[ruled]{algorithm2e}
+
+% graphics packages
+\usepackage{pict2e,picture}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary {positioning,graphs,calc,decorations.pathmorphing,shapes,arrows.meta,arrows,shapes.misc,trees}
+\usetikzlibrary{topaths,calc}
+\usetikzlibrary{fit}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{svg}
+
+
+% custom environments
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage{epigraph}
+\usepackage{environ}
+\usepackage{listings}
+
+% Miscellanious packages
+\usepackage{lipsum,mwe,abstract}
+\usepackage{multicol}
+\usepackage{refcount}
+\usepackage{hyperref}
+\usepackage{censor}
+\usepackage[numbers]{natbib}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+% Custom Commands %
+%%%%%%%%%%%%%%%%%%%
+
+% covering relation
+\newcommand{\coveringA}{%
+  \mathrel{-\mkern-4mu}<%
+}
+\newcommand{\coveringB}{\mathrel{\text{$\vcenter{\hbox{\pictcoveringB}}$}}}
+\newcommand{\pictcoveringB}{%
+  \begin{picture}(1em,.5em)
+    \roundcap
+    \put(0,.25em){\line(1,0){.6em}}
+    \put(.6em,.25em){\line(3,1){.4em}}
+    \put(.6em,.25em){\line(3,-1){.4em}}
+  \end{picture}%
+}
+
+% highlight
+\newcommand{\highlight}[1]{%
+  \par\noindent
+  \colorbox{gray!30}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+      #1
+    }%
+  }}
+
+% custom theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{property}[theorem]{Property}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{convention}[theorem]{Convention}
+\newtheorem{interpretation}[theorem]{Interpretation}
+\newtheorem{remark}[theorem]{Remark}
+% \newtheorem{question}[theorem]{Question}
+\newtheorem{note}[theorem]{Note}
+
+\newtheorem{question}{Question}
+\theoremstyle{plain}
+\newtheorem{assertion}{Assertion}[question]
+
+\newenvironment{reponse}{\renewcommand{\proofname}{Réponse}\begin{proof}}{\end{proof}}
+
+% special theorems / definitions / lemmas
+\newtheoremstyle{specialthm}% name
+{\topsep}%   Space above
+{\topsep}%   Space below
+{\itshape}%  Body font
+{}%          Indent amount
+{\bfseries}% Theorem head font
+{}%          Punctuation after theorem head -- blank
+{0.5em}%     Space after theorem head (0.5em is the default)
+{{\thmname{#1}\thmnumber{ #2$^{\bm*}\!$}\thmnote{\ \textmd{(#3)}.}}}
+
+\theoremstyle{specialthm}
+\newtheorem{sptheorem}[theorem]{Theorem}
+\newtheorem{spcorollary}[theorem]{Corollary}
+\newtheorem{splemma}[theorem]{Lemma}
+\newtheorem{spprop}[theorem]{Proposition}
+
+% special theorems / definitions / lemmas
+\newtheoremstyle{specialdef}% name
+{\topsep}%   Space above
+{\topsep}%   Space below
+{}%  Body font
+{}%          Indent amount
+{\bfseries}% Theorem head font
+{}%          Punctuation after theorem head -- blank
+{0.5em}%     Space after theorem head (0.5em is the default)
+{{\thmname{#1}\thmnumber{ #2$^{\bm*}\!$}\thmnote{\ \textmd{(#3)}.}}}
+
+\theoremstyle{specialdef}
+\newtheorem{spdefinition}[theorem]{Definition}
+\newtheorem{spproperty}[theorem]{Property}
+
+% abstract customization
+\renewenvironment{abstract}
+{\small
+  \begin{center}
+    \bfseries \abstractname\vspace{-.5em}\vspace{0pt}
+  \end{center}
+  \list{}{
+    \setlength{\leftmargin}{20mm}
+    \setlength{\rightmargin}{\leftmargin}
+  }
+\item\relax}
+{\endlist}
+
+% special epigraph/acknowledgements
+\newenvironment{dedication}
+{\clearpage           % we want a new page
+  \vspace*{\stretch{1}}% some space at the top
+  \itshape             % the text is in italics
+  \raggedleft          % flush to the right margin
+  \begin{minipage}{0.6\linewidth}
+    \parindent=12pt
+  }
+  {\end{minipage}
+  \par % end the paragraph
+  \vspace{\stretch{2}} % space at bottom is three times that at the top
+  \raggedleft
+  \textit{All Finite Lattices are Algebraic Lattices.}\\
+  \textit{-- G. Birkhoff}
+  \vspace{\stretch{1}}
+  \clearpage           % finish off the page
+}
+
+% Size for partition
+% \def\Bign#1{\mathclose{\hbox{$\left#1\vbox to11.5\p@{}\right.\n@space$}}\mathopen{}}
+
+% equiv class
+\def\equivclass{/}
