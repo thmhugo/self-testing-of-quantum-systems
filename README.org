@@ -1,8 +1,12 @@
 #+title: Quantum Information Project
+#+setupfile: misc/theme-readtheorg.setup
+#+latex_header: \input{misc/header.tex}
 
 * Subject
-** see [[file:reference/project-self-test.pdf][project description]]
-*** Objectives
+
+The subject can be found in [[file:reference/project-self-test.pdf][project description]].
+
+** Objectives
 
 #+begin_quote
 - Find the relation between two self-testing conditions:
@@ -10,13 +14,16 @@
   - reproduction of a full-set of measurement correlations
 #+end_quote
 
-This equates to finding Bell inequalities which are maximally violated by
-measurement correlations which self-test a corresponding quantum state.
+This equates to finding *Bell inequalities* which are *maximally violated by
+measurement correlations which self-test a corresponding quantum state*.
 
-In particular: *relate Mayers-Yao self-testing condition to larger classes of
-entangled states*.
+In particular: *relate Mayers-Yao self-testing condition to some Bell inequality*.
+
+If the first part is successful, try to *generalize the Mayers-Yao self-testing
+condition to larger classes of entangled states*.
 
 * Notes
+
 ** Self testing
 
 * Reference
