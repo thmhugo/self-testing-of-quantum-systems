@@ -9,7 +9,7 @@ By Hugo Abreu, Fanny Terrier and Hugo Thomas. Supervised by Ivan Šupić.
 
 * Subject
 
-The subject can be found in the [[file:reference/project-self-test.pdf][project description]].
+The subject can be found in the [[file:references/project-self-test.pdf][project description]].
 
 ** Objectives
 
@@ -57,6 +57,6 @@ test):
 *** Device-independent scenario
 
 * References
-** [[file:reference/self-testing-review.pdf][Self-testing of quantum systems: a review (1)]]
-** [[file:reference/self-testing-apparatus.pdf][Self testing quantum apparatus (2)]]
-** [[file:reference/bell-nonlocality][Bell nonlocality (3)]]
+** [[file:references/self-testing-review.pdf][Self-testing of quantum systems: a review (1)]]
+** [[file:references/self-testing-apparatus.pdf][Self testing quantum apparatus (2)]]
+** [[file:references/bell-nonlocality][Bell nonlocality (3)]]
