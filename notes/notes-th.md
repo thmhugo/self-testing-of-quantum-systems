@@ -22,8 +22,8 @@ $$M_{a|x} \succcurlyeq 0 ; \forall a, x \sum_a M_{a|x} = Id_A$$
 
 Similarly there exist measurement operators $N_{b|y} \in \mathscr{L(H)}$ acting
 on Bob's Hilbert space. The measurement operators are therefore projective :
-$$\forall a, a' : \quad M_{a|x}M_{a'|x} = \delta_{a, a'}M_{a|x}$$ {#eq:_}
-$$\forall b, b' : \quad N_{b|y}N_{b'|y} = \delta_{b, b'}N_{b|y}$$ {#eq:_}
+$$\forall a, a' : \quad M_{a|x}M_{a'|x} = \delta_{a, a'}M_{a|x}$${#eq:_}
+$$\forall b, b' : \quad N_{b|y}N_{b'|y} = \delta_{b, b'}N_{b|y}$${#eq:__}
 
 Now, from the Born rule, there must exist some quantum state $\rho_{AB} \in
 \mathscr{L(H_\text{A} \otimes H_\text{B})} \succcurlyeq 0$, and tr$\rho_{AB}$ =
@@ -42,11 +42,12 @@ $\ket{\psi}$ is given by $$p(i) = \braket{\psi | F_i | \psi}$$ {#eq:_}
 
 ## Physical assumptions
 
-1. The experiment admits a quantum description (state and measurement) 2. The
-laboratories of Alice and Bob are located in separate location in space and
-there is no communication between the two laboratories.  3. The setting $x$ and
-$y$ are chosen freely and independently of all other systems in the experiment.
-2. Each round of the experiment is independent of all other rounds a physically
+1. The experiment admits a quantum description (state and measurement)
+2. The laboratories of Alice and Bob are located in separate location in space
+and there is no communication between the two laboratories.
+3. The setting $x$ and $y$ are chosen freely and independently of all other
+systems in the experiment.
+4. Each round of the experiment is independent of all other rounds a physically
 equivalent to all others (i.e. there exists a single density matrix and
 measurement operators that are valid in every round).
 
@@ -57,7 +58,16 @@ state $\ket{\psi}$ and measurement $\{M_{a|x}\}, \{N_{b|y}\}$ by instead using
 the rotated state $U \otimes V \ket{\psi}$ and measurement
 $\{UM_{a|x}U^\dagger\}, \{VN_{b|y}V^\dagger\}$, where $U, V$ are unitary
 transformations. Hence, one can never conclude that the state was $\ket{\psi}$
-or $U \otimes V \ket{\psi}$.
+or $U \otimes V \ket{\psi}$. \newline On the other hand, considering real
+reference states $(\ket{\psi} = \ket{\psi}^*)$, one can only self-test
+measurements that are invariant under the complex conjugate $*$, since, assuming
+a real state $\ket{\psi}$, $p(ab|xy) = \text{tr}\big[\ket{\psi}\bra{\psi}
+M_{a|x} \otimes N_{b|y} \big] = \text{tr}\big[\ket{\psi}\bra{\psi} M_{a|x}^*
+\otimes N_{b|y}^* \big]$. Thus any correlation obtained using $\big\{\ket{\psi},
+M_{a|x}, N_{b|y} \big\}$ can also be obtained using $\big\{\ket{\psi},
+M_{a|x}^*, N_{b|y}^* \big\}$; but the second is not related to the first one via
+a local isometry (It's an open problem to list the set of state and measuremend
+transformation that do not affect the probabilities).
 
 2. _Additional degrees of freedom_ : a state $\ket{\psi} \otimes \ket \xi$ and
 measurements $\{M_{a|x} \otimes Id_\xi\}, \{N_{b|y} \otimes Id_\xi\}$ gives the
@@ -74,7 +84,7 @@ positive and trace preserving) maps: $$ \Xi (\rho \rightarrow \ket{\psi'}) =
 {#eq:extractability}
 where $\rho \rightarrow \ket{\psi'}$ defines a kind of mapping of the test state
 $\rho$ to the target state $\ket{\psi'}$. The maximum is taken over all quantum
-channels (hence the $\Lambda_{A,B}$ are called _quantum channels_ ?). This
+channels (why are the $\Lambda_{A,B}$ called _quantum channels_ ?). This
 implies that $\Xi$ return the $\Lambda_{A,B}$ such that the fidelity to the
 reference state is maximal.
 
@@ -88,10 +98,10 @@ To get the optimal (robustness-wise) self-testing statement, one can minimize
 the possible extractability (over all states) when a violation of at least
 $\beta$ is observed on a Bell inequality $B$. This quantity can be captured by
 the function $\mathcal{Q}$ defined as
-
 $$ \mathcal{Q}_{\psi,\mathcal{B}_\mathcal{I}} = \text{min}_{\rho \in
 S_\mathcal{B}(\beta)} \quad \Xi (\rho \rightarrow \ket{\psi'}) $$
 {#eq:robustness}
 
 where $S_\mathcal{B}(\beta)$ is the set of states $\rho$ which
-violate Bell inequality $\mathcal B$ with value at least $\beta$.
+violate Bell inequality $\mathcal B$ with value at least $\beta$.  One needs to
+note that the optimal CPTP map generally depends on the observed violation.
