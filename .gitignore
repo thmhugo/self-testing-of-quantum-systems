@@ -1,1 +1,9 @@
 .vscode
+# (my) TEX compilation stuff
+*.aux
+*.bbl
+*.blg
+*.log
+*.gz
+*.toc
+__latexindent_temp.*
