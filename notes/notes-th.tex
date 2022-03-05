@@ -1,10 +1,12 @@
 \documentclass[12pt]{article}
+\author{HT}
 \usepackage{ amssymb }
 \usepackage{ bbm }
 \usepackage{ braket }
 \usepackage{ mathrsfs }
 \usepackage{ geometry }
 \usepackage{ amsmath }
+% \usepackage[nottoc, notlof, notlot]{tocbibind}
 \geometry{
 	a4paper,
  	left=1cm,
@@ -20,7 +22,10 @@
 
 \vspace{2cm}
 
-\section{Self-testing of quantum systems: a review}
+% \section{Bell non locality \cite{2014-bell-nonlocality}}
+
+\section{Self-testing of quantum systems: a review
+\cite{2020-self-testing-a-review}}
 
 \subsection{The self-testing scenario}
 
@@ -136,5 +141,10 @@ the function $\mathcal{Q}$ defined as
 where $S_\mathcal{B}(\beta)$ is the set of states $\rho$ which violate Bell
 inequality $\mathcal B$ with value at least $\beta$.  One needs to note that the
 optimal CPTP map generally depends on the observed violation.
+
+\newpage
+
+\bibliographystyle{acm}
+\bibliography{bibliography}
 
 \end{document}
