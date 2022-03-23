@@ -6,4 +6,6 @@
 *.log
 *.gz
 *.toc
+*.out
+.DS_Store
 __latexindent_temp.*

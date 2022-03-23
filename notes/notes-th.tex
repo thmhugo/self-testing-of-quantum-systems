@@ -6,6 +6,14 @@
 \usepackage{ mathrsfs }
 \usepackage{ geometry }
 \usepackage{ amsmath }
+\usepackage[alphabetic]{amsrefs}
+\usepackage{ hyperref }
+
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\NS}{\mathcal{NS}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\tr}[1]{\text{tr}\big[#1\big]}
+
 % \usepackage[nottoc, notlof, notlot]{tocbibind}
 \geometry{
 	a4paper,
@@ -22,7 +30,7 @@
 
 \vspace{2cm}
 
-% \section{Bell non locality \cite{2014-bell-nonlocality}}
+\section{Bell non locality \cite{2014-bell-nonlocality}}
 
 \section{Self-testing of quantum systems: a review
 \cite{2020-self-testing-a-review}}
@@ -34,7 +42,7 @@ $\mathscr H$. We know there exist measurement operators $M_{a|x} \in
 \mathscr{L(H)}$ acting on Alice's Hilbert space and satisfying
 
 \begin{equation}
-	M_{a|x} \succcurlyeq 0 ; \forall a, x \sum_a M_{a|x} = Id_A
+	M_{a|x} \succcurlyeq 0 ; \forall a, x \sum_a M_{a|x} = \mathbbm{1}_A
 \end{equation}
 Similarly, there exist measurement operators $N_{b|y} \in \mathscr{L(H)}$ acting
 on Bob's Hilbert space. The measurement operators are therefore projective :
@@ -48,7 +56,7 @@ Now, from the Born rule, there must exist some quantum state $\rho_{AB} \in
 \mathscr{L(H_\text{A} \otimes H_\text{B})} \succcurlyeq 0$, and tr$\rho_{AB}$ =
 1 such that
 \begin{equation}
-	p(a,b|x,y) = \text{tr}\big[\rho_{AB} M_{a|x} \otimes N_{b|y} \big]
+	p(a,b|x,y) = \tr{\rho_{AB} M_{a|x} \otimes N_{b|y}}
 \end{equation}
 In self-testing, one aims to infer the form of the state and the measurement in
 the trace from knowledge of the correlation $p(a, b|x, y)$ alone, i.e. in
@@ -91,9 +99,9 @@ measuring $\ket{\psi}$ is given by
 		other hand, considering real reference states $(\ket{\psi} =
 		\ket{\psi}^*)$, one can only self-test measurements that are invariant
 		under the complex conjugate $*$, since, assuming a real state
-		$\ket{\psi}$, $p(ab|xy) = \text{tr}\big[\ket{\psi}\bra{\psi} M_{a|x}
-		\otimes N_{b|y} \big] = \text{tr}\big[\ket{\psi}\bra{\psi} M_{a|x}^*
-		\otimes N_{b|y}^* \big]$. Thus, any correlation obtained using
+		$\ket{\psi}$, $p(ab|xy) = \tr{\ket{\psi}\bra{\psi} M_{a|x}
+		\otimes N_{b|y}} = \tr{\ket{\psi}\bra{\psi} M_{a|x}^*
+		\otimes N_{b|y}^*}$. Thus, any correlation obtained using
 		$\big\{\ket{\psi}, M_{a|x}, N_{b|y} \big\}$ can also be obtained using
 		$\big\{\ket{\psi}, M_{a|x}^*, N_{b|y}^* \big\}$; but the second is not
 		related to the first one via a local isometry (It's an open problem to
@@ -101,9 +109,9 @@ measuring $\ket{\psi}$ is given by
 		the probabilities).
 
 	\item \textit{Additional degrees of freedom} : a state $\ket{\psi} \otimes
-		\ket \xi$ and measurements $\{M_{a|x} \otimes Id_\xi\}, \{N_{b|y}
-		\otimes Id_\xi\}$ gives the same correlation as $\ket{\psi}$ and
-		$\{M_{a|x}\}, \{N_{b|y}\}$.
+		\ket \xi$ and measurements $\{M_{a|x} \otimes \mathbbm{1}_\xi\},
+		\{N_{b|y} \otimes \mathbbm{1}_\xi\}$ gives the same correlation as
+		$\ket{\psi}$ and $\{M_{a|x}\}, \{N_{b|y}\}$.
 \end{enumerate}
 
 	\newpage
@@ -132,19 +140,75 @@ extractability is 1.
 To get the optimal (robustness-wise) self-testing statement, one can minimize
 the possible extractability (over all states) when a violation of at least
 $\beta$ is observed on a Bell inequality $B$. This quantity can be captured by
-the function $\mathcal{Q}$ defined as
+the function $\Q$ defined as
 
 \begin{equation}
-	\mathcal{Q}_{\psi,\mathcal{B}_\mathcal{I}} = \text{min}_{\rho \in
+	\Q_{\psi,\mathcal{B}_\mathcal{I}} = \text{min}_{\rho \in
 	S_\mathcal{B}(\beta)} \quad \Xi (\rho \rightarrow \ket{\psi'})
 \end{equation}
 where $S_\mathcal{B}(\beta)$ is the set of states $\rho$ which violate Bell
-inequality $\mathcal B$ with value at least $\beta$.  One needs to note that the
-optimal CPTP map generally depends on the observed violation.
+inequality $\mathcal B$ as defined in
+\cite{2018-experimentally-robust-self-testing} with value at least $\beta$.  One
+needs to note that the optimal CPTP map generally depends on the observed
+violation.
 
 \newpage
 
-\bibliographystyle{acm}
+\section{The device-independent outlook on quantum physics
+\cite{scarani2015deviceindependent}}
+
+\subsection{Formal characterization of local variables}
+
+The local variable paradigm is related to the idea of pre-established agreement
+between the two parties, i.e. the output of each run is fully determined by a
+variable $\lambda$:
+\begin{equation}
+	\mathbb{P}(a,b|x,y, \lambda) =
+		\mathbb{P}(a|x, \lambda) \mathbb{P}(b|y, \lambda)
+\end{equation}
+In other words, one can write the probability of having ($a$, $b$) given the two
+inputs ($x$, $y$) as:
+\begin{equation}
+	\mathbb{P}(a, b|x, y) =
+		\int d\lambda\mathbb{P}(a|x, \lambda) \mathbb{P}(b|y, \lambda)
+\end{equation}
+This pre-established agreement is called \textit{shared randomness}.
+\\\noindent
+\textit{No-signalling condition} : The fact that the statistics of $a$ ($b$)
+should nod depend on $y$($x$), that is, the following conditions hold for all
+$a, b, x, y, \lambda$:
+\begin{equation}
+	\mathbb{P}(a|x, y, \lambda) = \mathbb{P}(a|x, \lambda)
+	\qquad
+	\mathbb{P}(b|x, y, \lambda) = \mathbb{P}(b|y, \lambda)
+\end{equation}
+\\\noindent
+From the above conditions one can deduce the \textit{no-signalling constraints} :
+\begin{equation}
+	\begin{aligned}
+		\forall x, x' \in \mathcal{Y}: &
+			\sum_b \mathbb{P}(a,b|x,y) =
+			\sum_b \mathbb{P}(a,b|x,y') = \mathbb{P}(a|x) \\
+		\forall x, x' \in \mathcal{X}: &
+			\sum_a \mathbb{P}(a,b|x,y) =
+			\sum_a \mathbb{P}(a,b|x',y) = \mathbb{P}(b|y) \\
+	\end{aligned}
+\end{equation}
+
+\subsection{Bell inequalities as a polytope}
+The set $\L$ of all families of probability distributions that can be
+obtained with LV is convex. In other words, if $\mathcal P_1 \in \L$ and
+$\mathcal P_2 \in \L$, then $\forall \alpha \in [0, 1] : \alpha \mathcal
+P_1 + (1-\alpha) \mathcal P_2 \in \L $. Furthermore, each deterministic
+local point is an extremal point of $\L$. \\\noindent A polytope
+$\L$ in $\mathbb R^d$ is delimited by finitely many (d-1)-dimensional
+hyperplanes called facets (of the polytope).
+
+\subsubsection*{Minimal $d$ such that $\L \in \mathbbm{R}^d$}
+
+\newpage
+
+\bibliographystyle{alpha}
 \bibliography{bibliography}
 
 \end{document}
