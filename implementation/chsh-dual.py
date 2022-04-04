@@ -1,6 +1,7 @@
 from math import sqrt
 from itertools import product
 import collections
+from random import uniform
 import gurobipy as gp
 import numpy as np
 
@@ -141,7 +142,7 @@ def uniform_p():
 
 
 # Define the probability distribution we want to test
-p = uniform_p()
+p = quantum_p()
 
 
 # Create a new model
@@ -163,6 +164,13 @@ m.setObjective(gurobi_dot(S, p) - S_l, gp.GRB.MAXIMIZE)
 for l in lambdas:
     m.addConstr(gurobi_dot(S, vec_d_lambda(l)) - S_l <= 0)
 
+# for s in S:
+#     m.addConstr(s <= 1)
+#     m.addConstr(s >= 0)
+
+# m.addConstr(sum(s for s in S) == 1)
+
+
 m.addConstr(gurobi_dot(S, p) - S_l <= 1)
 
 
@@ -178,3 +186,10 @@ print(f"               (recall) P = {p}")
 evaluated_gurobi_dot = lambda a, b: sum(a[i].X * b[i] for i in range(len(b)))
 
 print(f"Inequality : s • p = {evaluated_gurobi_dot(S, p)} = S_l + 1 > S_l")
+
+primal = m.getAttr("Pi", m.getConstrs())
+
+# print(f"{primal = }")
+
+# for c in m.getConstrs():
+#     print("The dual value of %s : %g" % (c.constrName, c.pi))
