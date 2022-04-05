@@ -11,6 +11,7 @@ You can find an HTML version of this document in [[https://thmhugo.github.io/qi-
 
 * Subject
 
+
 The subject can be found in the [[file:references/project-self-test.pdf][project description]].
 
 ** Objectives
