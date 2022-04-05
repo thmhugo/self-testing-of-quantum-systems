@@ -180,7 +180,7 @@ m.optimize()
 
 print(f"Optimal objective value S = {m.objVal}")
 print(f"Solution values:      S_l = {S_l.X}")
-print(f"                        S = {[S[i].X for i in range(N)]}")
+print(f"                        s = {[S[i].X for i in range(N)]}")
 print(f"               (recall) P = {p}")
 
 evaluated_gurobi_dot = lambda a, b: sum(a[i].X * b[i] for i in range(len(b)))
@@ -191,5 +191,5 @@ primal = m.getAttr("Pi", m.getConstrs())
 
 # print(f"{primal = }")
 
-# for c in m.getConstrs():
-#     print("The dual value of %s : %g" % (c.constrName, c.pi))
+for c in m.getConstrs():
+    print("The dual value of %s : %g" % (c.constrName, c.pi))

@@ -55,6 +55,7 @@ def ls_quantum_p():
     Returns the probability distribution according to the Mayers-Yao
     correlations.
     """
+    print("QUANTUM\n")
     # Constraint Coefficients
     A = np.zeros([N, N])
     # Left Side
@@ -103,7 +104,12 @@ def ls_quantum_p():
     return list(np.linalg.solve(A, B))
 
 
-p = ls_quantum_p()
+def uniform_p():
+    print("UNIFORM\n")
+    return [4 / 36.0] * N
+
+
+p = uniform_p()
 
 
 # Create a new model
@@ -134,7 +140,7 @@ m.optimize()
 
 print(f"Optimal objective value S = {m.objVal}")
 print(f"Solution values:      S_l = {S_l.X}")
-print(f"                        S = {[S[i].X for i in range(N)]}")
+print(f"                        s = {[S[i].X for i in range(N)]}")
 print(f"               (recall) P = {p}")
 
 evaluated_gurobi_dot = lambda a, b: sum(a[i].X * b[i] for i in range(len(b)))
