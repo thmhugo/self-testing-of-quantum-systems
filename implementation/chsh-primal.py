@@ -25,10 +25,10 @@ print("\n\n")
 #-------------------------------------------------------------------------------
 
 def quantum_corr():
-        """
-        Returns the probability distribution according to the CHSH
-        correlations.
-        """
+        # """
+        # Returns the probability distribution according to the CHSH
+        # correlations.
+        # """
     # <ψ| A_i x B_j |ψ> = 1/sqrt(2) * ij
     A1 = np.zeros([4, 16])
     B1 = np.zeros([4])
@@ -36,7 +36,7 @@ def quantum_corr():
     for x, y in product(domain_xy, repeat=2):
         for a, b in product(domain_ab, repeat=2):
             A1[i, p[a, b, x, y]] = a * b
-        B1[i] = (-1) ** (x * y) / sqrt(2)
+        B1[i] = (-1) ** (x * y)*(0.51)
         i += 1
 
     # <ψ| A_i x B_j |ψ> = 1
@@ -146,12 +146,27 @@ if k==0 :
 if k==1 :
     P = quantum_corr()
 
+random = np.ones(len(P))
+for i in range(len(P)) :
+    random[i] = 1/4.
+
 # mu_lambda is a vector of the coeff of the linear combination of the vectors d_lambda
 mu_lambda = [m.addVar(name=f"mu_{i}", vtype="C") for i in range(len(lambdas))]
 
 # P_l : vector  of the convex combination of the deterministic points,
 # i.e P_l = sum(mu_lambda * vec_d_lambda) where the sum is on the lambdas
 P_l = np.dot(M,mu_lambda)
+E =[0] * 4
+i = 0
+for x,y in product(domain_xy, repeat=2):
+    s = 0
+    for a,b in product(domain_ab, repeat=2):
+        s += a *b * P[p[a,b,x,y]]
+    E[i] = (-1)**(x*y) * s
+    i +=1
+print(f"{E = }")
+print(f"CHSH = {sum(e for e in E)}")
+
 
 #add a variable Q (visibility)
 Q = m.addVar(name="Q", vtype="C")
@@ -162,13 +177,14 @@ m.update()
 
 # Add the constraints
 for i in range(len(P)):
-    m.addConstr((Q*P[i] >= P_l[i])  )
+    m.addConstr(((1-Q)*P[i]  + Q*random[i]>= P_l[i])  )
 
 m.addConstr(quicksum(mu_lambda[i] for i in range(len(lambdas))) == 1)
 
 for i in range(len(lambdas)):
     m.addConstr(mu_lambda[i] >= 0)
 
+#m.addConstr(quicksum(e for e in E) > 2)
 m.update()
 
 # objective = Min Q

@@ -152,6 +152,13 @@ if k==0 :
 if k==1 :
     P = ls_quantum_p()
 
+
+
+random = np.ones(len(P))
+for i in range(len(P)) :
+    random[i] = 1/4.
+
+
 # mu_lambda is a vector of the coeff of the linear combination of the vectors d_lambda
 mu_lambda = [m.addVar(name=f"mu_{i}", vtype="C") for i in range(len(lambdas))]
 
@@ -167,7 +174,7 @@ m.update()
 
 # Add the constraints
 for i in range(len(P)):
-    m.addConstr((Q*P[i] >= P_l[i]) )
+    m.addConstr(((1-Q)*P[i] + Q*random[i] == P_l[i]) )
 
 m.addConstr(quicksum(mu_lambda[i] for i in range(len(lambdas))) == 1)
 
