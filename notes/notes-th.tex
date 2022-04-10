@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\author{HT}
+\author{Hugo Thomas}
 \usepackage{ amssymb }
 \usepackage{ bbm }
 \usepackage{ braket }
@@ -8,11 +8,18 @@
 \usepackage{ amsmath }
 \usepackage[alphabetic]{amsrefs}
 \usepackage{ hyperref }
+\usepackage{braket}
+\usepackage{ multicol }
+\setlength{\columnsep}{0.8cm}
+\usepackage{ sectsty } % section font size
+\sectionfont{\fontsize{14}{15}\selectfont}
+\subsectionfont{\fontsize{12}{15}\selectfont}
 
 \renewcommand{\L}{\mathcal{L}}
 \newcommand{\NS}{\mathcal{NS}}
 \newcommand{\Q}{\mathcal{Q}}
 \newcommand{\tr}[1]{\text{tr}\big[#1\big]}
+\newcommand{\note}{\paragraph{Note:}}
 
 % \usepackage[nottoc, notlof, notlot]{tocbibind}
 \geometry{
@@ -22,20 +29,36 @@
  	top=1cm,
 	bottom=25mm
 }
-\title{Reading notes}
+
+\makeatletter
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+  \textbf{\@title}
+
+  \@author
+\end{flushleft}\egroup
+}
+\makeatother
+
+\title{Quantum information project - reading notes}
 \begin{document}
 \maketitle
 
-\tableofcontents
+\begin{multicols}{2}
+
+\begin{abstract}
+	This documents gathers reading notes and solutions found during the project.
+\end{abstract}
+% \tableofcontents
 
 \vspace{2cm}
 
-\section{Bell non locality \cite{2014-bell-nonlocality}}
+% \section*{Bell non locality \cite{2014-bell-nonlocality}}
 
-\section{Self-testing of quantum systems: a review
+\section*{Self-testing of quantum systems: a review
 \cite{2020-self-testing-a-review}}
 
-\subsection{The self-testing scenario}
+\subsection*{The self-testing scenario}
 
 $\mathscr{L(H)}$ denotes the set of linear operators acting on Hilbert space
 $\mathscr H$. We know there exist measurement operators $M_{a|x} \in
@@ -73,7 +96,7 @@ measuring $\ket{\psi}$ is given by
 	p(i) = \braket{\psi | F_i | \psi}
 \end{equation}
 
-\subsection{Physical assumptions}
+\subsection*{Physical assumptions}
 
 \begin{enumerate}
 	\item The experiment admits a quantum description (state and measurement)
@@ -87,7 +110,7 @@ measuring $\ket{\psi}$ is given by
 \end{enumerate}
 
 
-\subsection{Impossibility to infer exactly the references}
+\subsection*{Impossibility to infer exactly the references}
 
 \begin{enumerate}
 	\item \textit{Unitary invariance of the trace} : one can reproduce the
@@ -114,9 +137,8 @@ measuring $\ket{\psi}$ is given by
 		$\ket{\psi}$ and $\{M_{a|x}\}, \{N_{b|y}\}$.
 \end{enumerate}
 
-	\newpage
 
-\subsection{Extractability relative to a Bell Inequality}
+\subsection*{Extractability relative to a Bell Inequality}
 
 The extractability $\Xi$ is defined as the maximum fidelity of $\Lambda_A
 \otimes \Lambda_B \big[\rho\big]$ and $\ket{\psi'}$ over all CPTP (Completely
@@ -152,12 +174,10 @@ inequality $\mathcal B$ as defined in
 needs to note that the optimal CPTP map generally depends on the observed
 violation.
 
-\newpage
-
-\section{The device-independent outlook on quantum physics
+\section*{The device-independent outlook on quantum physics
 \cite{scarani2015deviceindependent}}
 
-\subsection{Formal characterization of local variables}
+\subsection*{Formal characterization of local variables}
 
 The local variable paradigm is related to the idea of pre-established agreement
 between the two parties, i.e. the output of each run is fully determined by a
@@ -195,20 +215,99 @@ From the above conditions one can deduce the \textit{no-signalling constraints} 
 	\end{aligned}
 \end{equation}
 
-\subsection{Bell inequalities as a polytope}
-The set $\L$ of all families of probability distributions that can be
-obtained with LV is convex. In other words, if $\mathcal P_1 \in \L$ and
-$\mathcal P_2 \in \L$, then $\forall \alpha \in [0, 1] : \alpha \mathcal
-P_1 + (1-\alpha) \mathcal P_2 \in \L $. Furthermore, each deterministic
-local point is an extremal point of $\L$. \\\noindent A polytope
-$\L$ in $\mathbb R^d$ is delimited by finitely many (d-1)-dimensional
-hyperplanes called facets (of the polytope).
+\subsection*{Bell inequalities as a polytope}
+The set $\L$ of all families of probability distributions that can be obtained
+with LV is convex. In other words, if $\mathcal P_1 \in \L$ and $\mathcal P_2
+\in \L$, then $\forall \alpha \in [0, 1] : \alpha \mathcal P_1 + (1-\alpha)
+\mathcal P_2 \in \L $. Furthermore, each deterministic local point is an
+extremal point of $\L$. \\\noindent A polytope $\L$ in $\mathbb R^d$ is
+delimited by finitely many ($d-1$)-dimensional hyperplanes called facets (of the
+polytope).
 
-\subsubsection*{Minimal $d$ such that $\L \in \mathbbm{R}^d$}
+% \subsubsection*{Minimal $d$ such that $\L \in \mathbbm{R}^d$}
 
-\newpage
+\section*{Link between Bell inequalities and linear programming}
+It is possible to state to which set $( \L, \Q, \NS )$ a probability distribution $P$ belongs to.
+Consider the linear program given below:
+\begin{equation} \label{eq:primal}
+	\begin{aligned}
+					& \min \quad q\\
+		s.t. \quad  &
+			\begin{cases}
+		 			(1-q) P + q \mathbbm{1}  & = \sum_\lambda \mu_\lambda D_\lambda \\
+					\sum_\lambda \mu_\lambda & = 1 \\
+					q & \leq 1 \\
+					\forall \lambda, \mu_\lambda \geq 0, q \geq 0
+				\end{cases}
+	\end{aligned}
+\end{equation}
+where $\{D_\lambda\}_\lambda$ is the set of all deterministic behaviors as
+described in \cite{2014-bell-nonlocality} and $\mathbbm{1}$ is the vector
+$\begin{pmatrix} 0.5 \cdots 0.5 \end{pmatrix}^T$ that represents a fully random
+noise. If the result is $q = 0$, then the probability vector $P$ describes a
+local model, otherwise, if $q > 0$, the probability vector describes a quantum
+behavior.
+
+The dual program of the program (\ref{eq:primal}) is the following:
+
+\begin{equation} \label{eq:dual}
+	\begin{aligned}
+					& \max \quad -\Gamma \cdot P + \phi - \omega\\
+		s.t. \quad  &
+			\begin{cases}
+		 			- \Gamma \cdot D_\lambda + \phi  & \leq 0 \quad, \forall \lambda \in {1, \cdots, \Delta^{2m} } \\
+					\Gamma \cdot P - \omega & \leq 1 \\
+					\phi, \forall \lambda $ $ \mu_\lambda \in \mathbb{R}, \omega \geq 0
+				\end{cases}
+	\end{aligned}
+\end{equation}
+
+We need to discuss the above program.
+
+\subsection*{Non-linear programming to determine a probability vector}
+Considering the linear program \ref{eq:primal}, one can transform the vector $P$
+into a vector of variables. Adding the constraints for $P$ to be a probability
+vector, one can solve the associated non-linear program. It yields the following
+linear program
+\begin{equation} \label{eq:primal-nl}
+	\begin{aligned}
+					& \max \quad CHSH\\
+		s.t. \quad  &
+			\begin{cases}
+		 			(1-q) P + q \mathbbm{1}  & = \sum_\lambda \mu_\lambda D_\lambda \\
+					\sum_\lambda \mu_\lambda & = 1 \\
+					q & \leq 1 \\
+					\forall \lambda, \mu_\lambda \geq 0, q \geq 0
+				\end{cases}
+	\end{aligned}
+\end{equation}
+where $CHSH$ is the CHSH inequality:
+\begin{equation}
+	\braket{A_0 \otimes B_0} + \braket{A_1 \otimes B_0} + \braket{A_0 \otimes B_1} - \braket{A_1 \otimes B_1}
+\end{equation}
+and expectation value can be decomposed in terms of measurement operators such that:
+\begin{equation}
+	\braket{A_x \otimes B_y} = \braket{(M_{1|x} - M_{-1|x})\otimes(M_{1|y} - M_{-1|y})}
+\end{equation}
+and considering
+\begin{equation}
+	p(ab|xy) = \braket{M_{a|x} \otimes M_{b|y}}
+\end{equation}
+
+This can be resolved by Gurobi Solver \cite{gurobi} even though the program
+found is non-convex.
+
+\note It should be possible to add constraint to ensure the resulting
+probability vector $P$ stays in $\Q$ to get the maximal violation of the CHSH
+inequality. Otherwise, the maximal value is $4$ meaning that the probability
+vector is in $\NS$. Considering the additional constraint $CHSH \leq 2 \sqrt 2$
+(that ensure that $P$ is \textit{at most} in $\Q$), we obtain in $P$ the
+probabilities that maximally violates the CHSH inequality, and $q = 0.91$ which
+is consistent with what we could expect considering the program
+\ref*{eq:primal}.
+
 
 \bibliographystyle{alpha}
 \bibliography{bibliography}
-
+\end{multicols}
 \end{document}
