@@ -1,10 +1,10 @@
+from difflib import unified_diff
 from math import sqrt
 from itertools import product
 import collections
 from random import uniform
 import gurobipy as gp
 import numpy as np
-
 
 domain_xy = [0, 1]
 domain_ab = [-1, 1]
@@ -69,33 +69,11 @@ def ns_p():
     return _p
 
 
-def quantum_p():
-    """Quantum probability distribution, calculated by hand."""
-    print("QUANTUM\n")
-    minus = (sqrt(2) - 1) / (4 * sqrt(2))  # sin^2(pi/8)
-    plus = (1 + sqrt(2)) / (4 * sqrt(2))  # cos^2(pi/8)
-    return [  #    (a, b, x, y)
-        plus,  #   (-1, -1, 0, 0) 0
-        plus,  #   (-1, -1, 0, 1) 1
-        plus,  #   (-1, -1, 1, 0) 2
-        minus,  #  (-1, -1, 1, 1) 3
-        minus,  #  (-1,  1, 0, 0) 4
-        minus,  #  (-1,  1, 0, 1) 5
-        minus,  #  (-1,  1, 1, 0) 6
-        plus,  #   (-1,  1, 1, 1) 7
-        minus,  #  ( 1, -1, 0, 0) 8
-        minus,  #  ( 1, -1, 0, 1) 9
-        minus,  #  ( 1, -1, 1, 0) 10
-        minus,  #  ( 1, -1, 1, 1) 11
-        plus,  #   ( 1,  1, 0, 0) 12
-        plus,  #   ( 1,  1, 0, 1) 13
-        plus,  #   ( 1,  1, 1, 0) 14
-        minus,  #  ( 1,  1, 1, 1) 15
-    ]
-
-
 def ls_quantum_p():
-    """Quantum probability distribution, but computed by solving the system of equations."""
+    """
+    Quantum probability distribution,
+    computed by solving the system of equations.
+    """
     print("QUANTUM LS\n")
     # Constraint Coefficients
     A = np.zeros([16, 16])
@@ -142,8 +120,8 @@ def uniform_p():
 
 
 # Define the probability distribution we want to test
-p = quantum_p()
-
+p = ls_quantum_p()
+# p = ns_p()
 
 # Create a new model
 m = gp.Model()
@@ -153,43 +131,49 @@ m.Params.LogToConsole = 0  # Less verbose Guroby output.
 # Create variables
 S = [m.addVar(name=f"s_{i}", vtype="C") for i in range(N)]
 S_l = m.addVar(name="S_l", vtype="C")
+x = m.addVar(name="x", vtype="C")
 m.update()
 
 
 # Set objective function
-m.setObjective(gurobi_dot(S, p) - S_l, gp.GRB.MAXIMIZE)
+m.setObjective(gp.quicksum(-S[i] * p[i] for i in range(16)) - S_l + x, gp.GRB.MAXIMIZE)
 
 
 # Add constraints
 for l in lambdas:
-    m.addConstr(gurobi_dot(S, vec_d_lambda(l)) - S_l <= 0)
+    d = vec_d_lambda(l)
+    m.addConstr(gp.quicksum(-S[i] * d[i] for i in range(16)) + x <= 0)
+
+# m.addConstr(gurobi_dot(S, p) >= 1)
+m.addConstr(gp.quicksum(S[i] * (0.25 - p[i]) for i in range(16)) - S_l <= 1)
+m.update()
 
 # for s in S:
-#     m.addConstr(s <= 1)
-#     m.addConstr(s >= 0)
+# m.addConstr(s >= 0)
+m.addConstr(S_l >= 0)
 
-# m.addConstr(sum(s for s in S) == 1)
-
-
-m.addConstr(gurobi_dot(S, p) - S_l <= 1)
-
+# for i in range(4):
+#     print([S[i + j] for j in [0, 4, 8, 12]])
+#     m.addConstr(gp.quicksum(S[i + j] for j in [0, 4, 8, 12]) == 1)
 
 # Solve it!
 m.optimize()
 
+# m.display()
 
 print(f"Optimal objective value S = {m.objVal}")
 print(f"Solution values:      S_l = {S_l.X}")
-print(f"                        s = {[S[i].X for i in range(N)]}")
-print(f"               (recall) P = {p}")
+print(f"                        x = {x.X}")
+print(f"                        s = \n{np.array([S[i].X for i in range(N)])}")
+print(f"               (recall) P = \n{np.array(p)}")
 
 evaluated_gurobi_dot = lambda a, b: sum(a[i].X * b[i] for i in range(len(b)))
 
-print(f"Inequality : s • p = {evaluated_gurobi_dot(S, p)} = S_l + 1 > S_l")
+print(f"s • p = {evaluated_gurobi_dot(S, p)} ")
 
 primal = m.getAttr("Pi", m.getConstrs())
+# print(sum(s.X for s in S))
+print(f"{primal = }")
 
-# print(f"{primal = }")
-
-for c in m.getConstrs():
-    print("The dual value of %s : %g" % (c.constrName, c.pi))
+# for c in m.getConstrs():
+#     print(f"The dual value of {c.constrName} : {c.pi}")
