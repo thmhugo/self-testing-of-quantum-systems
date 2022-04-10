@@ -231,14 +231,14 @@ It is possible to state to which set $( \L, \Q, \NS )$ a probability distributio
 Consider the linear program given below:
 \begin{equation} \label{eq:primal}
 	\begin{aligned}
-					& \min \quad q\\
-		s.t. \quad  &
-			\begin{cases}
-		 			(1-q) P + q \mathbbm{1}  & = \sum_\lambda \mu_\lambda D_\lambda \\
-					\sum_\lambda \mu_\lambda & = 1 \\
-					q & \leq 1 \\
-					\forall \lambda, \mu_\lambda \geq 0, q \geq 0
-				\end{cases}
+			 & \min \quad q \\
+		s.t. &
+		\begin{cases}
+			(1-q) P + q \mathbbm{1}  & = \sum_\lambda \mu_\lambda D_\lambda \\
+			\sum_\lambda \mu_\lambda & = 1 \\
+			q & \leq 1 \\
+			\forall \lambda, \mu_\lambda \geq 0, q \geq 0
+		\end{cases}
 	\end{aligned}
 \end{equation}
 where $\{D_\lambda\}_\lambda$ is the set of all deterministic behaviors as
@@ -252,38 +252,41 @@ The dual program of the program (\ref{eq:primal}) is the following:
 
 \begin{equation} \label{eq:dual}
 	\begin{aligned}
-					& \max \quad -\Gamma \cdot P + \phi - \omega\\
-		s.t. \quad  &
-			\begin{cases}
-		 			- \Gamma \cdot D_\lambda + \phi  & \leq 0 \quad, \forall \lambda \in {1, \cdots, \Delta^{2m} } \\
-					\Gamma \cdot P - \omega & \leq 1 \\
-					\phi, \forall \lambda $ $ \mu_\lambda \in \mathbb{R}, \omega \geq 0
-				\end{cases}
+ 			 & \max \quad -\Gamma \cdot P + \phi - \omega \\
+		s.t. &
+		\begin{cases}
+			- \Gamma \cdot D_\lambda + \phi & \leq 0, \forall \lambda \in \big\{1, \cdots, \Delta^{2m}\big\} \\
+			\Gamma \cdot (\mathbbm{1} - P) - \omega & \leq 1 \\
+			\forall \lambda, \mu_\lambda \in \mathbb{R}, \quad \omega \geq 0,  & \phi \in \mathbb{R}
+		\end{cases}
 	\end{aligned}
 \end{equation}
-
-We need to discuss the above program.
+where $\Gamma = \begin{pmatrix} \gamma_1 \cdots \gamma_{\Delta^{2m}}
+\end{pmatrix}^T$. We need to discuss the above program.
 
 \subsection*{Non-linear programming to determine a probability vector}
-Considering the linear program \ref{eq:primal}, one can transform the vector $P$
+Considering the linear program (\ref{eq:primal}), one can transform the vector $P$
 into a vector of variables. Adding the constraints for $P$ to be a probability
 vector, one can solve the associated non-linear program. It yields the following
-linear program
+non-linear program
 \begin{equation} \label{eq:primal-nl}
 	\begin{aligned}
-					& \max \quad CHSH\\
-		s.t. \quad  &
-			\begin{cases}
-		 			(1-q) P + q \mathbbm{1}  & = \sum_\lambda \mu_\lambda D_\lambda \\
-					\sum_\lambda \mu_\lambda & = 1 \\
-					q & \leq 1 \\
-					\forall \lambda, \mu_\lambda \geq 0, q \geq 0
-				\end{cases}
+			  & \max \quad CHSH\\
+		s.t.  &
+		\begin{cases}
+			(1-q) P + q \mathbbm{1}  & = \sum_\lambda \mu_\lambda D_\lambda \\
+			\sum_\lambda \mu_\lambda & = 1 \\
+			q & \leq 1 \\
+			\forall \lambda, \mu_\lambda \geq 0, q \geq 0
+		\end{cases}
 	\end{aligned}
 \end{equation}
 where $CHSH$ is the CHSH inequality:
 \begin{equation}
-	\braket{A_0 \otimes B_0} + \braket{A_1 \otimes B_0} + \braket{A_0 \otimes B_1} - \braket{A_1 \otimes B_1}
+	\braket{A_0 \otimes B_0} +
+	\braket{A_1 \otimes B_0} +
+	\braket{A_0 \otimes B_1} -
+	\braket{A_1 \otimes B_1}
 \end{equation}
 and expectation value can be decomposed in terms of measurement operators such that:
 \begin{equation}
@@ -293,21 +296,22 @@ and considering
 \begin{equation}
 	p(ab|xy) = \braket{M_{a|x} \otimes M_{b|y}}
 \end{equation}
+where each $p(ab|xy)$ becomes a variable.
 
 This can be resolved by Gurobi Solver \cite{gurobi} even though the program
 found is non-convex.
 
-\note It should be possible to add constraint to ensure the resulting
+\note It should be possible to add a constraint to ensure the resulting
 probability vector $P$ stays in $\Q$ to get the maximal violation of the CHSH
 inequality. Otherwise, the maximal value is $4$ meaning that the probability
 vector is in $\NS$. Considering the additional constraint $CHSH \leq 2 \sqrt 2$
 (that ensure that $P$ is \textit{at most} in $\Q$), we obtain in $P$ the
-probabilities that maximally violates the CHSH inequality, and $q = 0.91$ which
+probabilities that maximally violate the CHSH inequality, and $q = 0.91$ which
 is consistent with what we could expect considering the program
-\ref*{eq:primal}.
+(\ref{eq:primal}).
 
+\end{multicols}
 
 \bibliographystyle{alpha}
 \bibliography{bibliography}
-\end{multicols}
 \end{document}
