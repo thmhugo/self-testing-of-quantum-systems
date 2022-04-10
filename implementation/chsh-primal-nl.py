@@ -110,9 +110,9 @@ for x, y in product(domain_xy, repeat=2):
 m.addConstr(Q >= 0)
 m.addConstr(Q <= 1)
 
-m.addConstr(chsh >= 2 * sqrt(2))
+m.addConstr(chsh <= 2 * sqrt(2))
 
-m.setObjective(chsh, GRB.MINIMIZE)
+m.setObjective(chsh, GRB.MAXIMIZE)
 
 m.update()
 m.optimize()

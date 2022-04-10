@@ -35,7 +35,7 @@ def vec_d_lambda(l: int):
     dl = []
     for x, y in list(product(domain_xy, repeat=2)):
         for a, b in list(product(domain_ab, repeat=2)):
-            dl.append(int(l[x] == a and l[y + 2] == b))
+            dl.append(int(l[x] == a and l[y + 3] == b))
     return dl
 
 
@@ -109,7 +109,7 @@ def uniform_p():
     return [4 / 36.0] * N
 
 
-p = uniform_p()
+p = ls_quantum_p()
 
 
 # Create a new model
