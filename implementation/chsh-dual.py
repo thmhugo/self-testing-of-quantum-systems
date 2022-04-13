@@ -121,7 +121,7 @@ def uniform_p():
 
 # Define the probability distribution we want to test
 p = ls_quantum_p()
-# p = ns_p()
+# p = ()
 
 # Create a new model
 m = gp.Model()
@@ -177,3 +177,10 @@ print(f"{primal = }")
 
 # for c in m.getConstrs():
 #     print(f"The dual value of {c.constrName} : {c.pi}")
+
+i = 0
+for a, b in product(domain_ab, repeat=2):
+    for x, y in product(domain_xy, repeat=2):
+        if S[i].X != 0:
+            print(f"{S[i].X} -- {p[indexes_p[a,b,x,y]]}")
+        i += 1

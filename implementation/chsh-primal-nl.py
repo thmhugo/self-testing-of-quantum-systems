@@ -75,7 +75,7 @@ for i in range(len(lambdas)):
 # Define a constraint for the chsh inequality
 chsh = LinExpr()
 for x, y in product(domain_xy, repeat=2):
-    e = LinExpr()  # represents an expecation value <AxBy>
+    e = LinExpr()  # represents an expecation value <Ax By>
     for a, b in product(domain_ab, repeat=2):
         e += a * b * P[p[a, b, x, y]]
     # Constraints from (10) p.6 : Bell nonlocality
@@ -89,12 +89,7 @@ for x, y in product(domain_xy, repeat=2):
         quicksum(P[p[a, b, x, y]] for a, b in product(domain_ab, repeat=2)) == 1
     )
 # If useless, removed by guroby
-m.addConstr(quicksum(P[i] for i in range(len(lambdas))) == 4)
-
-for x, y in product(domain_xy, repeat=2):
-    m.addConstr(
-        quicksum(P[p[a, b, x, y]] for a, b in product(domain_ab, repeat=2)) == 1
-    )
+# m.addConstr(quicksum(P[i] for i in range(len(lambdas))) == 4)
 
 for x, y in product(domain_xy, repeat=2):
     m.addConstr(
@@ -110,7 +105,7 @@ for x, y in product(domain_xy, repeat=2):
 m.addConstr(Q >= 0)
 m.addConstr(Q <= 1)
 
-m.addConstr(chsh <= 2 * sqrt(2))
+m.addConstr(chsh <= 2 + 10e-4)
 
 m.setObjective(chsh, GRB.MAXIMIZE)
 
@@ -119,5 +114,5 @@ m.optimize()
 
 print(f"Objective = {m.objVal}")
 print(f"{Q.X = }")
-print(f"Computed probability distribution : \n{np.array([P[i].X for i in range(16)])}")
+print(f"Computed probability distribution : \n{([P[i].X for i in range(16)])}")
 print(f"CHSH value : {chsh.getValue()}")
