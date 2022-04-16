@@ -20,7 +20,7 @@ for a, b in product(domain_ab, repeat=2):
     for x, y in product(domain_xy, repeat=2):
         indexes_p[a, b, x, y] = i
         i += 1
-print(indexes_p)
+# print(indexes_p)
 
 
 def vec_d_lambda(l: int):
@@ -125,31 +125,29 @@ p = ls_quantum_p()
 
 # Create a new model
 m = gp.Model()
-# m.Params.LogToConsole = 0  # Less verbose Gurobi output.
+m.Params.LogToConsole = 0  # Less verbose Gurobi output.
 
 
 # Create variables
 S = [m.addVar(name=f"s_{i}", vtype="C") for i in range(N)]
-S_l = m.addVar(name="S_l", vtype="C")
-x = m.addVar(name="x", vtype="C")
+phi = m.addVar(name="phi", vtype="C")
 m.update()
 
 
 # Set objective function
-m.setObjective(gp.quicksum(-S[i] * p[i] for i in range(16)) - S_l + x, gp.GRB.MAXIMIZE)
+m.setObjective(phi, gp.GRB.MAXIMIZE)
 
 
 # Add constraints
 for l in lambdas:
     d = vec_d_lambda(l)
-    m.addConstr(gp.quicksum(-S[i] * d[i] for i in range(16)) + x <= 0)
+    m.addConstr(gp.quicksum(-S[i] * d[i] for i in range(16)) + phi <= 0)
 
 # m.addConstr(gurobi_dot(S, p) >= 1)
-m.addConstr(gp.quicksum(S[i] * (0.25 - p[i]) for i in range(16)) - S_l <= 1)
+m.addConstr(gp.quicksum(S[i] * p[i] for i in range(16)) <= 1)
 m.update()
 
-
-m.addConstr(S_l >= 0)
+# m.addConstr(phi >= 0)
 
 # Solve it!
 m.optimize()
@@ -157,14 +155,14 @@ m.optimize()
 # m.display()
 
 print(f"Optimal objective value S = {m.objVal}")
-print(f"Solution values:      S_l = {S_l.X}")
-print(f"                        x = {x.X}")
+print(f"Solution values:      phi = {phi.X}")
 print(f"                        s = \n{np.array([S[i].X for i in range(N)])}")
 print(f"               (recall) P = \n{np.array(p)}")
 
 evaluated_gurobi_dot = lambda a, b: sum(a[i].X * b[i] for i in range(len(b)))
 
 print(f"s • p = {evaluated_gurobi_dot(S, p)} ")
+
 primal = m.getAttr("Pi", m.getConstrs())
 # print(sum(s.X for s in S))
 print(f"{primal = }")

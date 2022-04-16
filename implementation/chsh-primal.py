@@ -1,8 +1,10 @@
-from math import sqrt
+from math import sqrt, asin
 import numpy as np
 from itertools import product
 import collections
 from gurobipy import *
+from decimal import Context
+
 
 # inputs (x,y) domain and outputs (a,b) domain
 domain_xy = [0, 1]
@@ -79,10 +81,6 @@ def quantum_corr():
     # Solve linear system AP = B to have the vector of quantum correlations
     P = np.linalg.solve(A, B)
 
-    print("\n ------  Quantum Correlations (CHSH)")
-    print(P)
-    print("\n\n")
-
     return P
 
 
@@ -103,6 +101,25 @@ def local_corr():
     print("\n\n")
 
     return P
+
+
+def prob(a, b, x, y):
+    """Returns the winning probability P(a,b|x,y)."""
+    if a == -1:
+        a = 0
+    if b == -1:
+        b = 0
+    return int((a + b) % 2 == x * y) * 0.5
+
+
+def ns_p():
+    """No signalling probability distribution"""
+    print("NS\n")
+    _p = []
+    for x, y in product([0, 1], repeat=2):
+        for a, b in product([-1, 1], repeat=2):
+            _p.append(prob(a, b, x, y))
+    return _p
 
 
 # -------------------------------------------------------------------------------
@@ -156,23 +173,24 @@ if k == 1:
     P = quantum_corr()
 
 P = [
-    0.3750624998969749,
-    0.12493750010302522,
-    0.12493750010302523,
-    0.3750624998969748,
-    0.3750624998969272,
-    0.12493750010307286,
-    0.12493750010307299,
-    0.3750624998969271,
-    0.37506249989497736,
-    0.12493750010502273,
-    0.12493750010502272,
-    0.37506249989497725,
-    0.12493750010041668,
-    0.37506249989958323,
-    0.3750624998995832,
-    0.12493750010041679,
+    0.42677669529663687,
+    0.07322330470336313,
+    0.07322330470336313,
+    0.42677669529663687,
+    0.0,
+    0.5,
+    0.5,
+    0.0,
+    0.42677669529663687,
+    0.07322330470336313,
+    0.07322330470336313,
+    0.42677669529663687,
+    0.07322330470336313,
+    0.42677669529663687,
+    0.42677669529663687,
+    0.07322330470336313,
 ]
+
 random = np.ones(len(P))
 for i in range(len(P)):
     random[i] = 1 / 4.0
@@ -204,7 +222,8 @@ m.update()
 
 # Add the constraints
 for i in range(len(P)):
-    m.addConstr(((1 - Q) * P[i] + Q - P_l[i] == 0))
+    m.addConstr(((1 - Q) * P[i] + Q - P_l[i] >= 0))
+    # m.addConstr(Q * P[i] - P_l[i] >= 0)
 
 m.addConstr(quicksum(mu_lambda[i] for i in range(len(lambdas))) >= 1)
 
@@ -218,7 +237,7 @@ m.update()
 m.setObjective(Q, GRB.MINIMIZE)
 
 m.update()
-
+print(P)
 m.optimize()
 
 # Uncomment to display the system of constraints and the objective solved by Gurobi
@@ -229,6 +248,15 @@ print(f"Objective = {m.objVal}")
 
 print("NON LOCAL" if m.objVal > 0 else "LOCAL")
 
+c = Context(prec=15)
+chsh_check = 0
+for x, y in product(domain_xy, repeat=2):
+    e = 0
+    for a, b in product(domain_ab, repeat=2):
+        e += a * b * P[p[a, b, x, y]]
+    chsh_check += (-1) ** (x * y) * asin(e)
+
+print(f"{chsh_check = }")
 # if m.objVal > 0:
 #     print("\n--------------")
 #     print("\n Objective value greater than one : NON LOCAL")
@@ -238,6 +266,6 @@ print("NON LOCAL" if m.objVal > 0 else "LOCAL")
 #     print("\n Objective value is equal to one :  LOCAL")
 
 # print(f"{[s.X for s in mu_lambda] = }")
-# dual = m.getAttr("Pi", m.getConstrs())
+dual = m.getAttr("Pi", m.getConstrs())
 # print(sum(s.X for s in S))
 # print(f"{dual = }")
