@@ -158,38 +158,40 @@ p = ls_quantum_p()
 print("P\n")
 print(p)
 
+
 # Create a new model
 m = gp.Model()
 m.Params.LogToConsole = 0
+
 
 R = np.zeros(len(p))
 for i in range(len(R)) :
     R[i] = 1/4.
 
-
 # Create variables
 Y = [m.addVar(name=f"y_{i}", vtype="C") for i in range(N)]
+
+omega = m.addVar(name="omega", vtype="C")
 gamma_p = m.addVar(name="gamma_p", vtype="C")
 gamma_m = m.addVar(name="gamma_m", vtype="C")
 
 m.update()
 
-
 # Set objective function
-m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m    , gp.GRB.MAXIMIZE)
+m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m - omega    , gp.GRB.MAXIMIZE)
 
 
 # Add constraints
-
-i=0
 for l in lambdas:
     m.addConstr(gamma_p - gamma_m  + gurobi_dot(Y, vec_d_lambda(l)) <= 0)
 
-m.addConstr(gp.quicksum((-R[i]+p[i])*(Y[i]) for i in range(len(p)))   <= 1)
+m.addConstr(gp.quicksum((-R[i]+p[i])*(Y[i]) for i in range(len(p))) - omega   <= 1)
+
 
 m.update()
 # Solve it!
 m.optimize()
+#m.display()
 
 
 print(f"Optimal objective value S = {m.objVal}")
@@ -198,7 +200,6 @@ print(f"                        Y = {[Y[i].X for i in range(N)]}")
 print(f"                        gamma_p = {gamma_p.X }")
 print(f"                        gamma_m = {gamma_m.X }")
 print(f"               (recall) P = {p}")
-#
 
 
 print("dot R Y : ")

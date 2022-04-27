@@ -131,6 +131,7 @@ Y = [m.addVar(name=f"y_{i}", vtype="C") for i in range(N)]
 
 gamma_p = m.addVar(name="gamma_p", vtype="C")
 gamma_m = m.addVar(name="gamma_m", vtype="C")
+omega = m.addVar(name="omega", vtype="C")
 
 
 
@@ -138,7 +139,7 @@ m.update()
 
 
 # Set objective function
-m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m    , gp.GRB.MAXIMIZE)
+m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m -omega   , gp.GRB.MAXIMIZE)
 
 
 # Add constraints
@@ -146,7 +147,7 @@ m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m    , gp.GRB.MAXIMIZE)
 for l in lambdas:
     m.addConstr(gamma_p - gamma_m + gurobi_dot(Y, vec_d_lambda(l)) <= 0)
 
-m.addConstr(gp.quicksum((-R[i]+p[i])*(Y[i]) for i in range(len(p))) <= 1)
+m.addConstr(gp.quicksum((-R[i]+p[i])*(Y[i]) for i in range(len(p)))  -omega <= 1)
 
 
 m.update()
@@ -160,6 +161,7 @@ print(f"Solution values:     \n")
 print(f"                        Y = {[Y[i].X for i in range(N)]}")
 print(f"                        gamma_p = {gamma_p.X }")
 print(f"                        gamma_m = {gamma_m.X }")
+print(f"                        omega = {omega.X }")
 
 print(f"               (recall) P = {p}")
 
