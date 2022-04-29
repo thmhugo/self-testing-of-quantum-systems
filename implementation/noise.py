@@ -92,8 +92,8 @@ if __name__ == "__main__":
             break
         last = context.create_decimal(a)
 
-        print(f"Iterated {n} times before stopping.")
-        print(f"            {a = }")
-        print(f"  {1 / sqrt(2) = }\n")
-        solve_chsh_primal(game, noisy_p(a, P))  # Local behavior
-        solve_chsh_primal(game, noisy_p(a + 10e-3, P))  # Something just above the local one
+    print(f"Iterated {n} times before stopping.")
+    print(f"            {a = }")
+    print(f"  {1 / sqrt(2) = }\n")
+    solve_chsh_primal(game, noisy_p(a, P))  # Local behavior
+    solve_chsh_primal(game, noisy_p(a + 10e-3, P))  # Something just above the local one
