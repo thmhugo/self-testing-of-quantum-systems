@@ -23,6 +23,11 @@ for a, b in product(domain_ab, repeat=2):
         indexes_p[a, b, x, y] = i
         i += 1
 
+print("\n ------  basis order\n")
+print(indexes_p)
+print("\n\n")
+
+
 #-------------------------------------------------------------------------------
 #       QUANTUM CORR
 #-------------------------------------------------------------------------------
@@ -32,6 +37,7 @@ def ls_quantum_p():
     Returns the probability distribution according to the Mayers-Yao
     correlations.
     """
+    print("QUANTUM\n")
     # Constraint Coefficients
     A = np.zeros([N, N])
     # Left Side
@@ -77,11 +83,7 @@ def ls_quantum_p():
         i += 1
 
     # Solve linear system Ax = B
-    P = list(np.linalg.solve(A, B))
-    print("\n ------  Quantum Correlations (CHSH)")
-    print(P) ;
-    print("\n\n")
-    return P
+    return list(np.linalg.solve(A, B))
 
 #-------------------------------------------------------------------------------
 #       LOCAL CORR
@@ -114,10 +116,10 @@ def vec_d_lambda(l: int):
     dl = []
     for x, y in list(product(domain_xy, repeat=2)):
         for a, b in list(product(domain_ab, repeat=2)):
-            dl.append(int(l[x] == a and l[y + 2] == b))
+            dl.append(int(l[x] == a and l[y + 3] == b))
     return dl
 
-# Lambdas are the possible outputs assignement (a0,a1,a2,b0,b1,b2), there are 16 possible lambdas
+# Lambdas are the possible outputs assignement (a0,a1,a2,b0,b1,b2), there are 64 possible lambdas
 
 lambdas = []
 for a0, a1, a2 in list(product([-1, 1], repeat=3)):
@@ -135,7 +137,6 @@ for l in lambdas :
 M = np.column_stack(D_l)
 
 
-P = ls_quantum_p()
 
 #-------------------------------------------------------------------------------
 #       LINEAR PROGRAMMING WITH GUROBI SOLVER
@@ -174,7 +175,7 @@ m.update()
 
 # Add the constraints
 for i in range(len(P)):
-    m.addConstr(((1-Q)*P[i] + Q*random[i] == P_l[i]) )
+    m.addConstr(((1-Q)*P[i] + Q*random[i] <= P_l[i]) )
 
 m.addConstr(quicksum(mu_lambda[i] for i in range(len(lambdas))) == 1)
 
@@ -194,10 +195,25 @@ m.optimize()
 # Uncomment to display the system of constraints and the objective solved by Gurobi
 # m.display()
 
-if (m.objVal > 1) :
+if (m.objVal > 0) :
     print("\n--------------")
     print("\n Objective value greater than one : NON LOCAL")
 
-if (m.objVal == 1) :
+if (m.objVal == 0) :
     print("\n--------------")
     print("\n Objective value is equal to one :  LOCAL")
+
+check = np.zeros(len(P))
+
+for i in range(len(lambdas)):
+    check += mu_lambda[i].X * np.array(vec_d_lambda(lambdas[i]))
+
+print("check")
+print(check)
+
+
+print(f"Optimal objective value S = {m.objVal}")
+print(f"Solution values:     \n")
+print(f"                        mu_lambda= {[mu_lambda[i].X for i in range(len(lambdas))]}")
+print(f"                        Q = {Q.X }")
+print(f"               (recall) P = {P}")
