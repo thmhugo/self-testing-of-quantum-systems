@@ -62,5 +62,7 @@ def solve_mayers_yao_primal(game, P):
         print("\n Objective value is equal to one :  LOCAL")
 
 
-solve_mayers_yao_primal(game=game, P=quantum_probability_distribution_mayers_yao(game=game))
+solve_mayers_yao_primal(
+    game=game, P=quantum_probability_distribution_mayers_yao(game=game)
+)
 # solve_mayers_yao_primal(game=game, P=uniform_noise(game=game))

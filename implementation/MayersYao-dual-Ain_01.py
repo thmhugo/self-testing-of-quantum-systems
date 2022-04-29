@@ -12,9 +12,9 @@ domain_y = [0, 1, 2]
 domain_ab = [-1, 1]
 delta = len(domain_ab)
 
-N = (delta**2)*len(domain_x)*len(domain_y)
+N = (delta**2) * len(domain_x) * len(domain_y)
 
- # Stores the index of each P(a,b,x,y)
+# Stores the index of each P(a,b,x,y)
 indexes_p = collections.defaultdict(int)
 i = 0
 for a, b in product(domain_ab, repeat=2):
@@ -27,9 +27,10 @@ print("\n ------  basis order\n")
 print(indexes_p)
 print("\n\n")
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 #       DETRMINISTIC BEHAVIOR
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
+
 
 def vec_d_lambda(l: int):
     """Generates the D_lambda vector associated to a lambda.
@@ -45,6 +46,7 @@ def vec_d_lambda(l: int):
                 dl.append(int(l[x] == a and l[y + 3] == b))
     return dl
 
+
 # Lambdas are the possible outputs assignement (a0,a1,a2,b0,b1,b2), there are 64 possible lambdas
 
 lambdas = []
@@ -53,14 +55,15 @@ for a0, a1, a2 in list(product([-1, 1], repeat=3)):
         lambdas.append((a0, a1, a2, b0, b1, b2))
 
 
-
 def gurobi_dot(A, B):
     """Returns the dot product A•B."""
     return gp.quicksum(A[i] * B[i] for i in range(N))
 
-#-------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------------
 #       QUANTUM CORR
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
+
 
 def ls_quantum_p():
     """
@@ -119,6 +122,7 @@ def ls_quantum_p():
     # Solve linear system Ax = B
     return list(np.linalg.solve(A, B))
 
+
 def uniform_p():
     print("UNIFORM\n")
     return [1 / 4.0] * N
@@ -127,8 +131,8 @@ def uniform_p():
 p = ls_quantum_p()
 
 R = np.ones(len(p))
-for i in range(len(p)) :
-    R[i] = 1/4.
+for i in range(len(p)):
+    R[i] = 1 / 4.0
 
 # Create a new model
 m = gp.Model()
@@ -142,12 +146,11 @@ gamma_p = m.addVar(name="gamma_p", vtype="C")
 gamma_m = m.addVar(name="gamma_m", vtype="C")
 
 
-
 m.update()
 
 
 # Set objective function
-m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m    , gp.GRB.MAXIMIZE)
+m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m, gp.GRB.MAXIMIZE)
 
 
 # Add constraints
@@ -155,13 +158,13 @@ m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m    , gp.GRB.MAXIMIZE)
 for l in lambdas:
     m.addConstr(gamma_p - gamma_m + gurobi_dot(Y, vec_d_lambda(l)) <= 0)
 
-m.addConstr(gp.quicksum((-R[i]+p[i])*(Y[i]) for i in range(len(p))) <= 1)
+m.addConstr(gp.quicksum((-R[i] + p[i]) * (Y[i]) for i in range(len(p))) <= 1)
 
 
 m.update()
 # Solve it!
 m.optimize()
-#m.display()
+# m.display()
 
 
 print(f"Optimal objective value S = {m.objVal}")
@@ -174,13 +177,13 @@ print(f"               (recall) P = {p}")
 
 
 print("dot R Y : ")
-L= [(Y[i].X) for i in range(N)]
-print(gurobi_dot(L,R))
+L = [(Y[i].X) for i in range(N)]
+print(gurobi_dot(L, R))
 print("dot P Y : ")
-print(gurobi_dot(p,L))
+print(gurobi_dot(p, L))
 
 print("dot Y Y : ")
-print(gurobi_dot(L,L))
+print(gurobi_dot(L, L))
 
 # evaluated_gurobi_dot = lambda a, b: sum(a[i].X * b[i] for i in range(len(b)))
 #

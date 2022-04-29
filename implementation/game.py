@@ -160,7 +160,6 @@ class Game:
         self.m = len(self.domain_xy)
         self.N = self.delta ** (self.m * 2)
 
-
         self.indexes_p = defaultdict(int)  # Stores the index of each P(a,b,x,y)
         i = 0
         for a, b in product(self.domain_ab, repeat=2):

@@ -13,9 +13,9 @@ domain_ab = [-1, 1]
 delta = len(domain_ab)
 
 # Cardinal of the basis of proba P(ab|xy)
-N = (delta**2 * len(domain_x) * len(domain_y) )
+N = delta**2 * len(domain_x) * len(domain_y)
 
- # Stores the index of each P(a,b,x,y)
+# Stores the index of each P(a,b,x,y)
 indexes_p = collections.defaultdict(int)
 i = 0
 for a, b in product(domain_ab, repeat=2):
@@ -28,9 +28,10 @@ print(indexes_p)
 print("\n\n")
 
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 #       QUANTUM CORR
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
+
 
 def ls_quantum_p():
     """
@@ -91,27 +92,30 @@ def ls_quantum_p():
     # Solve linear system Ax = B
     return list(np.linalg.solve(A, B))
 
-#-------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------------
 #       LOCAL CORR
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
+
 
 def local_corr():
-    P = np.zeros(len(domain_ab)**2*len(domain_xy)**2)
+    P = np.zeros(len(domain_ab) ** 2 * len(domain_xy) ** 2)
     for x in domain_x:
         for y in domain_y:
             for a, b in product(domain_ab, repeat=2):
-                index = indexes_p[(a,b,x,y)]
-                P[index]= 1/4.
+                index = indexes_p[(a, b, x, y)]
+                P[index] = 1 / 4.0
 
     print("\n ------  Local Correlations")
-    print(P) ;
+    print(P)
     print("\n\n")
 
-    return(P)
+    return P
 
-#-------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------------
 #       DETRMINISTIC BEHAVIOR
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 def vec_d_lambda(l: int):
     """Generates the D_lambda vector associated to a lambda.
     Args:
@@ -126,6 +130,7 @@ def vec_d_lambda(l: int):
                 dl.append(int(l[x] == a and l[y + 3] == b))
     return dl
 
+
 # Lambdas are the possible outputs assignement (a0,a1,a2,b0,b1,b2), there are 64 possible lambdas
 
 lambdas = []
@@ -134,37 +139,37 @@ for a0, a1, a2 in list(product([-1, 1], repeat=3)):
         lambdas.append((a0, a1, a2, b0, b1, b2))
 
 
-#D_l is a matrix with each row corresponding to a deterministic behavior lambda
-D_l = np.zeros((len(lambdas),N)) # vector 64*36
-i=0
-for l in lambdas :
+# D_l is a matrix with each row corresponding to a deterministic behavior lambda
+D_l = np.zeros((len(lambdas), N))  # vector 64*36
+i = 0
+for l in lambdas:
     D_l[i] = np.array(vec_d_lambda(l))
-    i+=1
+    i += 1
 # M is the transpose of D_l , one column = one deterministic behavior d_lambda
 M = np.column_stack(D_l)
 
 
-
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 #       LINEAR PROGRAMMING WITH GUROBI SOLVER
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
-#define the model
+# define the model
 m = Model()
 
-print("\n ----------------------------------\n Enter 0 for local correlations or 1 for quantum correlations \n ")
+print(
+    "\n ----------------------------------\n Enter 0 for local correlations or 1 for quantum correlations \n "
+)
 k = int(input())
 
-if k==0 :
+if k == 0:
     P = local_corr()
-if k==1 :
+if k == 1:
     P = ls_quantum_p()
 
 
-
 random = np.ones(len(P))
-for i in range(len(P)) :
-    random[i] = 1/4.
+for i in range(len(P)):
+    random[i] = 1 / 4.0
 
 
 # mu_lambda is a vector of the coeff of the linear combination of the vectors d_lambda
@@ -173,16 +178,16 @@ mu_lambda = [m.addVar(name=f"mu_{i}", vtype="C") for i in range(len(lambdas))]
 
 # P_l : vector  of the convex combination of the deterministic points,
 # i.e P_l = sum(mu_lambda * vec_d_lambda) where the sum is on the lambdas
-P_l = np.dot(M,mu_lambda)
+P_l = np.dot(M, mu_lambda)
 
-#add a variable Q (visibility)
+# add a variable Q (visibility)
 Q = m.addVar(name="Q", vtype="C")
 
 m.update()
 
 # Add the constraints
 for i in range(len(P)):
-    m.addConstr(((1-Q)*P[i] + Q*random[i] <= P_l[i]) )
+    m.addConstr(((1 - Q) * P[i] + Q * random[i] <= P_l[i]))
 
 m.addConstr(quicksum(mu_lambda[i] for i in range(len(lambdas))) == 1)
 
@@ -202,11 +207,11 @@ m.optimize()
 # Uncomment to display the system of constraints and the objective solved by Gurobi
 # m.display()
 
-if (m.objVal > 1) :
+if m.objVal > 1:
     print("\n--------------")
     print("\n Objective value greater than one : NON LOCAL")
 
-if (m.objVal == 1) :
+if m.objVal == 1:
     print("\n--------------")
     print("\n Objective value is equal to one :  LOCAL")
 
@@ -221,6 +226,8 @@ print(check)
 
 print(f"Optimal objective value S = {m.objVal}")
 print(f"Solution values:     \n")
-print(f"                        mu_lambda= {[mu_lambda[i].X for i in range(len(lambdas))]}")
+print(
+    f"                        mu_lambda= {[mu_lambda[i].X for i in range(len(lambdas))]}"
+)
 print(f"                        Q = {Q.X }")
 print(f"               (recall) P = {P}")

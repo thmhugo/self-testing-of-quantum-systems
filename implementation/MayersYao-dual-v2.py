@@ -25,9 +25,7 @@ for a, b in product(domain_ab, repeat=2):
 
 print("Basis P\n")
 print(indexes_p)
-pip install jupyterlab
 
-Note: If you install JupyterLab with conda or mamba, we recommend using the conda-forge channel.
 
 def vec_d_lambda(l: int):
     """Generates the D_lambda vector associated to a lambda.
@@ -118,8 +116,8 @@ def uniform_p():
 p = ls_quantum_p()
 
 R = np.ones(len(p))
-for i in range(len(p)) :
-    R[i] = 1/4.
+for i in range(len(p)):
+    R[i] = 1 / 4.0
 
 # Create a new model
 m = gp.Model()
@@ -134,12 +132,11 @@ gamma_m = m.addVar(name="gamma_m", vtype="C")
 omega = m.addVar(name="omega", vtype="C")
 
 
-
 m.update()
 
 
 # Set objective function
-m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m -omega   , gp.GRB.MAXIMIZE)
+m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m - omega, gp.GRB.MAXIMIZE)
 
 
 # Add constraints
@@ -147,13 +144,13 @@ m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m -omega   , gp.GRB.MAXIMIZE)
 for l in lambdas:
     m.addConstr(gamma_p - gamma_m + gurobi_dot(Y, vec_d_lambda(l)) <= 0)
 
-m.addConstr(gp.quicksum((-R[i]+p[i])*(Y[i]) for i in range(len(p)))  -omega <= 1)
+m.addConstr(gp.quicksum((-R[i] + p[i]) * (Y[i]) for i in range(len(p))) - omega <= 1)
 
 
 m.update()
 # Solve it!
 m.optimize()
-#m.display()
+# m.display()
 
 
 print(f"Optimal objective value S = {m.objVal}")
@@ -167,13 +164,13 @@ print(f"               (recall) P = {p}")
 
 
 print("dot R Y : ")
-L= [(Y[i].X) for i in range(N)]
-print(gurobi_dot(L,R))
+L = [(Y[i].X) for i in range(N)]
+print(gurobi_dot(L, R))
 print("dot P Y : ")
-print(gurobi_dot(p,L))
+print(gurobi_dot(p, L))
 
 print("dot Y Y : ")
-print(gurobi_dot(L,L))
+print(gurobi_dot(L, L))
 
 # evaluated_gurobi_dot = lambda a, b: sum(a[i].X * b[i] for i in range(len(b)))
 #

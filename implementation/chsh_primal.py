@@ -2,6 +2,7 @@ from math import sqrt
 import numpy as np
 from itertools import product
 from gurobipy import *
+from sympy import solve
 from game import *
 
 # inputs (x,y) domain and outputs (a,b) domain
@@ -64,3 +65,7 @@ def solve_chsh_primal(game, P):
 
 
 solve_chsh_primal(game, quantum_probability_distribution_chsh(game=game))
+# solve_chsh_primal(game, uniform_noise(game))
+# solve_chsh_primal(game,
+# [a * p + (1 - a) * 0.25 for p in quantum_probability_distribution_chsh(game=game)]
+# )
