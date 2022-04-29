@@ -151,7 +151,7 @@ class Game:
         self.model.Params.LogToConsole = 0
 
         self.lambdas = []
-        # print(list(product(self.domain_ab, repeat=self.offset)))
+
         for a in list(product(domain_ab, repeat=self.offset)):
             for b in list(product(self.domain_ab, repeat=self.offset)):
                 self.lambdas.append((*a, *b))

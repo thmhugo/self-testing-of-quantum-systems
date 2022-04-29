@@ -58,14 +58,15 @@ def solve_chsh_primal(game, P):
     print("         CHSH = ", sum(e for e in E))
     print("Optimal value = ", game.model.objVal)
 
-    if game.model.objVal == 0:
+    if game.model.objVal == 1:
         print("LOCAL")
     else:
         print("NON LOCAL")
 
 
-solve_chsh_primal(game, quantum_probability_distribution_chsh(game=game))
-# solve_chsh_primal(game, uniform_noise(game))
-# solve_chsh_primal(game,
-# [a * p + (1 - a) * 0.25 for p in quantum_probability_distribution_chsh(game=game)]
-# )
+if __name__ == "__main__":
+    solve_chsh_primal(game, quantum_probability_distribution_chsh(game=game))
+    # solve_chsh_primal(game, uniform_noise(game))
+    # solve_chsh_primal(game,
+    # [a * p + (1 - a) * 0.25 for p in quantum_probability_distribution_chsh(game=game)]
+    # )

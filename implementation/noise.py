@@ -66,35 +66,34 @@ def is_p_quantum(game, P):
 
     return (not (game.model.objVal == 1), sum(e for e in E))
 
-
-noisy_p = lambda a, P: [a * p + (1 - a) * 0.25 for p in P]
-
-P = quantum_probability_distribution_chsh(game)
-
-prec = 14
-context = Context(prec=prec)
-upper_bound = 1
-lower_bound = 0
-last = 0
-n = 0
-
-# Dichotomic search for 'a'
-while True:
-    n += 1
-    a = (upper_bound + lower_bound) / 2.0
-    is_q, chsh = is_p_quantum(P=noisy_p(a, P), game=game)
-    if chsh > 2:
-        upper_bound = a
-    else:
-        lower_bound = a
-
-    if abs(last - context.create_decimal(a)) < 10 ** (-prec):
-        break
-    last = context.create_decimal(a)
-
 if __name__ == "__main__":
-    print(f"Iterated {n} times before stopping.")
-    print(f"            {a = }")
-    print(f"  {1 / sqrt(2) = }\n")
-    solve_chsh_primal(game, noisy_p(a, P))  # Local behavior
-    solve_chsh_primal(game, noisy_p(a + 10e-3, P))  # Something just above the local one
+    noisy_p = lambda a, P: [a * p + (1 - a) * 0.25 for p in P]
+
+    P = quantum_probability_distribution_chsh(game)
+
+    prec = 14
+    context = Context(prec=prec)
+    upper_bound = 1
+    lower_bound = 0
+    last = 0
+    n = 0
+
+    # Dichotomic search for 'a'
+    while True:
+        n += 1
+        a = (upper_bound + lower_bound) / 2.0
+        is_q, chsh = is_p_quantum(P=noisy_p(a, P), game=game)
+        if chsh > 2:
+            upper_bound = a
+        else:
+            lower_bound = a
+
+        if abs(last - context.create_decimal(a)) < 10 ** (-prec):
+            break
+        last = context.create_decimal(a)
+
+        print(f"Iterated {n} times before stopping.")
+        print(f"            {a = }")
+        print(f"  {1 / sqrt(2) = }\n")
+        solve_chsh_primal(game, noisy_p(a, P))  # Local behavior
+        solve_chsh_primal(game, noisy_p(a + 10e-3, P))  # Something just above the local one

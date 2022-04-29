@@ -56,6 +56,6 @@ def solve_chsh_dual(game, P):
     print("P•Y : ", gurobi_dot(P, L))
     print("Y•Y : ", gurobi_dot(L, L))
 
-
-# solve_chsh_dual(game, ns_p())
-solve_chsh_dual(game, quantum_probability_distribution_chsh(game=game))
+if __name__ == "__main__":
+    # solve_chsh_dual(game, ns_p())
+    solve_chsh_dual(game, quantum_probability_distribution_chsh(game=game))
