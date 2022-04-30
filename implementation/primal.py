@@ -31,7 +31,7 @@ def solve_primal(game, P):
 
     # Add the constraints
     for i in range(len(P)):
-        game.model.addConstr(((1 - Q) * P[i] + Q * R[i] <= P_l[i]))
+        game.model.addConstr(((1 - Q) * P[i] + Q * R[i] == P_l[i]))
 
     game.model.addConstr(gp.quicksum(mu_lambda[i] for i in range(game.N)) == 1)
 
