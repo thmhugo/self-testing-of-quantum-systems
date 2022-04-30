@@ -112,8 +112,16 @@ From this dual, we have that
 \begin{equation}
     \displaystyle{\sum_\lambda} \mu_\lambda \mathbf{d_\lambda} \leq -\gamma  \text{ and } \mathbbm{1}\cdot\mathbf{y} \leq - \gamma
 \end{equation}
+and we can write  
+\begin{eqnarray*}
+\mathcal{P}\cdot \mathbf{y}&\ \leq \ & 1 + \omega + \mathbbm{1}\cdot\mathbf{y} \\
+\Leftrightarrow \mathcal{P}\cdot \mathbf{y}&\ \leq \ & 1 + \omega - \gamma
+\end{eqnarray*}
 
-Hence we can write 
+\textcolor{red}{CHSH quantum : $\gamma = - 2\sqrt{2}$, pas quantum $\gamma = -1$ OK, borne 2 pour local, pour quantique $1 + 2\sqrt{2}$ }
+
+
+If $\mathcal{P}$ is non-local, we can derive a tigher inequality 
 
 \begin{eqnarray*}
   \text{ } (1-\alpha) \mathcal{P}\cdot \mathbf{y}+ \alpha \mathbbm{1} \cdot \mathbf{y}&\ \leq \ & \displaystyle{\sum_\lambda} \mu_\lambda \mathbf{d_\lambda}\cdot \mathbf{y} \\
@@ -121,9 +129,14 @@ Hence we can write
  \Leftrightarrow (1-\alpha) \mathcal{P}\cdot \mathbf{y}+ \alpha \mathbbm{1}\cdot \mathbf{y} &\ \leq \ &   - \gamma \\
  \Leftrightarrow  \mathcal{P}\cdot \mathbf{y}   &\ \leq \ & \dfrac{- \gamma - \alpha \mathbbm{1} \cdot\mathbf{y}}{1-\alpha} \\
  \Leftrightarrow   \mathcal{P}\cdot \mathbf{y}   &\ \leq \ &   \dfrac{- \gamma + \alpha \gamma}{1-\alpha} \\
+ \Leftrightarrow   \mathcal{P}\cdot \mathbf{y}   &\ \leq \ &   -\gamma \\
 \end{eqnarray*}
 
-and conclude on a maximum violation of the Bell inequality
+and conclude on a maximum violation of the Bell inequality. 
+
+\textcolor{red}{For CHSH, it gives upper bound $2\sqrt{2}$ }
+\textcolor{red}{}
+
 
 
 
