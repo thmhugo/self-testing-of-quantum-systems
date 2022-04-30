@@ -68,5 +68,6 @@ def solve_mayers_yao_dual(game, p):
     #
     # print(f"Inequality : s • p = {evaluated_gurobi_dot(Y, p)}" )
 
+
 if __name__ == "__main__":
     solve_mayers_yao_dual(game, p)

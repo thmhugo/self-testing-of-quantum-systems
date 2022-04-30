@@ -4,15 +4,6 @@ import numpy as np
 from game import *
 
 
-domain_xy = [0, 1]
-domain_ab = [-1, 1]
-
-game = Game(domain_xy, domain_ab)
-
-# M is the transpose of D_l , one column = one deterministic behavior d_lambda
-M = np.column_stack(game.d_lambda)
-
-
 def solve_chsh_dual(game, P):
     """_summary_
 
@@ -56,6 +47,7 @@ def solve_chsh_dual(game, P):
     print("P•Y : ", gurobi_dot(P, L))
     print("Y•Y : ", gurobi_dot(L, L))
 
+
 if __name__ == "__main__":
-    # solve_chsh_dual(game, ns_p())
+    game = Game(domain_xy=[0, 1], domain_ab=[-1, 1])
     solve_chsh_dual(game, quantum_probability_distribution_chsh(game=game))
