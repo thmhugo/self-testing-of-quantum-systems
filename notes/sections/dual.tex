@@ -1,0 +1,135 @@
+\section{Inequalities from duality}
+
+The linear program for non-locality detection also comes in a useful dual form 
+
+\begin{equation}
+    \displaystyle{ \max_{\gamma,\mathbf{y}} \,  - \mathcal{P}\cdot \mathbf{y} + \gamma - \omega  } \\
+
+\left\{
+\begin{array}{rcl}
+ (\mathbbm{1} - \mathcal{P} ) \cdot \mathbf{y}  - \omega &\ \leq \ & 1\\
+ \gamma + \mathbf{d_\lambda} \cdot \mathbf{y} &\ \leq \ & 0 , \ \ \forall \lambda\\
+
+\mathbf{y} \in \mathbb{R}^n ,\ \gamma \in \mathbb{R}, \omega \geq 0  & & 
+\end{array}
+\right.
+\label{eq:dual}
+
+\end{equation}
+
+
+The results from CHSH and Mayers-Yao show that (\textcolor{red}{FIND WHY}) one always has at the optimum 
+\begin{eqnarray}
+\mathcal{P} \cdot \mathbf{y}^* &=& - \alpha^* \\
+\mathbbm{1} \cdot \mathbf{y}^* &=&  1 - \alpha^*
+\end{eqnarray}
+and thus, multiplying the first constraint of the primal by $\mathbf{y}^*$, one finds that
+
+\begin{equation}
+    \displaystyle{\sum_\lambda} \mu^*_\lambda \mathbf{d_\lambda} \cdot \mathbf{y}^* = 0 
+\end{equation}
+which means that the solution $\mathbf{y}^*$ of the dual problem is perpendicular to the optimal convex sum of deterministic behaviours. Therefore, the solution $\mathbf{y}^*$ corresponds to the non-zero coefficients which maximally violate the Bell inequality \textcolor{red}{surement très faux }
+\begin{equation}
+    \mathbf{y}^* \cdot \mathcal{P} \geq S_l 
+\end{equation}
+
+but this dual form only inform that 
+\begin{equation*}
+        \mathbf{y}^* \cdot \mathcal{P} \geq \alpha 
+\end{equation*}
+Therefore, it does not give any information on the local bound \textcolor{red}{mais peut etre que si}. 
+
+\subsection{CHSH correlations}
+
+
+
+
+
+\begin{equation*}
+    \begin{tabular}{|c||*{4}{c|}}\hline
+  $\mathbf{y^*}$   & \multicolumn{4}{ c| }{$(a,b)$} \\
+  \hline
+$(x,y)$&$(-1,-1)$&$(-1,1)$&$(1,-1)$&$(1,1)$\\
+\hline
+$($0$,$0$)$&$-\sqrt{2}$&$0$&$0$&$0$\\
+\hline
+$($0$,1)$&$0$&$\sqrt{2}$&$0$&$0$\\
+\hline
+$(1,$0$)$&$0$&$0$&$\sqrt{2}$&$0$\\
+\hline
+$(1,1)$&$\sqrt{2}$&$0$&$0$&$0$\\
+\hline
+    \end{tabular}
+\end{equation*}
+
+
+
+\subsection{Mayer-Yao's correlation}
+
+
+
+
+
+\subsection{Another Dual \textcolor{red}{find better name}}
+
+One can notice that another primal is possible for detecting non-locality 
+\begin{equation}
+    \displaystyle{\min_{\alpha,\mathbf{\mu}}} \, \alpha  \\
+
+\left\{
+\begin{array}{rcl}
+ (1-\alpha) \mathcal{P}+ \alpha \mathbbm{1} &\ \leq \ & \displaystyle{\sum_\lambda} \mu_\lambda \mathbf{d_\lambda} \\
+\displaystyle{\sum_\lambda} \mu_\lambda &\ = \ & 1  \\
+\alpha  &\ \leq \ & 1 \\
+\forall \lambda,\ \mu_\lambda \geq 0\ ,\ \alpha \geq 0  
+\end{array}
+\right.
+\label{eq:primal2}
+\end{equation}
+
+and the results are exactly the same at the optimum.
+\vspace{2cm}
+
+However, the following dual will give different results 
+
+\begin{equation}
+    \displaystyle{ max_{\gamma,\mathbf{y}} \,  \mathcal{P}\cdot \mathbf{y} + \gamma  -\omega } \\
+
+\left\{
+\begin{array}{rcl}
+ (\mathcal{P} - \mathbbm{1}) \cdot \mathbf{y} -\omega &\ \leq \ & 1\\
+ \gamma  + \mathbf{d_\lambda} \cdot \mathbf{y} &\ \leq \ & 0\\
+
+\mathbf{y} \in \mathbb{R}_+^n ,\ \gamma \in \mathbb{R}, \omega \geq 0  & &
+\end{array}
+\right.
+\label{eq:dual}
+
+\end{equation}
+
+
+From this dual, we have that 
+\begin{equation}
+    \displaystyle{\sum_\lambda} \mu_\lambda \mathbf{d_\lambda} \leq -\gamma  \text{ and } \mathbbm{1}\cdot\mathbf{y} \leq - \gamma
+\end{equation}
+
+Hence we can write 
+
+\begin{eqnarray*}
+  \text{ } (1-\alpha) \mathcal{P}\cdot \mathbf{y}+ \alpha \mathbbm{1} \cdot \mathbf{y}&\ \leq \ & \displaystyle{\sum_\lambda} \mu_\lambda \mathbf{d_\lambda}\cdot \mathbf{y} \\
+ \Leftrightarrow (1-\alpha) \mathcal{P}\cdot \mathbf{y}+ \alpha \mathbbm{1} \cdot \mathbf{y}&\ \leq \ &  \displaystyle{\sum_\lambda} \mu_\lambda (- \gamma) \\
+ \Leftrightarrow (1-\alpha) \mathcal{P}\cdot \mathbf{y}+ \alpha \mathbbm{1}\cdot \mathbf{y} &\ \leq \ &   - \gamma \\
+ \Leftrightarrow  \mathcal{P}\cdot \mathbf{y}   &\ \leq \ & \dfrac{- \gamma - \alpha \mathbbm{1} \cdot\mathbf{y}}{1-\alpha} \\
+ \Leftrightarrow   \mathcal{P}\cdot \mathbf{y}   &\ \leq \ &   \dfrac{- \gamma + \alpha \gamma}{1-\alpha} \\
+\end{eqnarray*}
+
+and conclude on a maximum violation of the Bell inequality
+
+
+
+
+
+
+
+
+

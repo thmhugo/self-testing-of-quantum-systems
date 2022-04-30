@@ -1,0 +1,219 @@
+@misc{apers-de-wolf,
+  doi       = {10.48550/ARXIV.1911.07306},
+  url       = {https://arxiv.org/abs/1911.07306},
+  author    = {Apers, Simon and de Wolf,
+               Ronald},
+  keywords  = {Quantum Physics (quant-ph), Computational Complexity
+               (cs.CC), Data Structures and Algorithms (cs.DS), FOS: Physical
+               sciences, FOS: Physical sciences, FOS: Computer and information
+               sciences, FOS: Computer and information sciences},
+  title     = {Quantum Speedup for Graph Sparsification,
+               Cut Approximation and Laplacian Solving},
+  publisher = {arXiv},
+  year      = {2019},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+@article{spielman-teng-sparsification,
+  author   = {Spielman, Daniel A. and Teng, Shang-Hua},
+  title    = {Spectral
+              Sparsification of Graphs},
+  journal  = {SIAM Journal on Computing},
+  volume   = {40},
+  number   = {4},
+  pages    = {981-1025},
+  year     = {2011},
+  doi      = {10.1137/08074489X},
+  url      = {https://doi.org/10.1137/08074489X},
+  eprint   = {https://doi.org/10.1137/},
+  abstract = { We introduce a new notion of graph
+              sparsification based on spectral similarity of graph Laplacians:
+              spectral sparsification requires that the Laplacian quadratic form
+              of the sparsifier approximate that of the original. This is
+              equivalent to saying that the Laplacian of the sparsifier is a
+              good preconditioner for the Laplacian of the original. We prove
+              that every graph has a spectral sparsifier of nearly linear size.
+              Moreover, we present an algorithm that produces spectral
+              sparsifiers in time \$O(m\log^{c}m)\$, where m is the number of
+              edges in the original graph and c is some absolute constant. This
+              construction is a key component of a nearly linear time algorithm
+              for solving linear equations in diagonally dominant matrices. Our
+              sparsification algorithm makes use of a nearly linear time
+              algorithm for graph partitioning that satisfies a strong
+              guarantee: if the partition it outputs is very unbalanced, then
+              the larger part is contained in a subgraph of high conductance. }
+}
+
+
+@misc{chen-linear-alg,
+  doi       = {10.48550/ARXIV.2203.00671},
+  url       = {https://arxiv.org/abs/2203.00671},
+  author    = {Chen, Li and Kyng, Rasmus and
+               Liu, Yang P. and Peng, Richard and Gutenberg, Maximilian Probst
+               and Sachdeva, Sushant},
+  keywords  = {Data Structures and Algorithms (cs.DS), FOS: Computer
+               and information sciences, FOS: Computer and information sciences},
+  title     = {Maximum Flow and Minimum-Cost Flow in Almost-Linear Time},
+  publisher = {arXiv},
+  year      = {2022},
+  copyright = {arXiv.org perpetual, non-exclusive
+               license}
+}
+
+@article{speilman-srivastava-sparsification,
+  author   = {Spielman, Daniel A. and Srivastava, Nikhil},
+  title    = {Graph
+              Sparsification by Effective Resistances},
+  journal  = {SIAM Journal on
+              Computing},
+  volume   = {40},
+  number   = {6},
+  pages    = {1913-1926},
+  year     = {2011},
+  doi      = {10.1137/080734029},
+  url      = {https://doi.org/10.1137/080734029},
+  eprint   = {https://doi.org/10.1137/080734029},
+  abstract = { We present a nearly linear
+              time algorithm that produces high-quality spectral sparsifiers of
+              weighted graphs. Given as input a weighted graph \$G=(V,E,w)\$ and
+              a parameter \$\epsilon>0\$, we produce a weighted subgraph
+              \$H=(V,\tilde{E},\tilde{w})\$ of G such that \$|\tilde{E}|=O(n\log
+              n/\epsilon^2)\$ and all \$x\in\mathbb{R}^V\$ satisfy
+              \$(1-\epsilon)\sum\_{uv\in
+              E}\,(x(u)-x(v))^2w\_{uv}\leq\sum\_{uv\in\tilde{E}}\,(x(u)-x(v))^2\tilde{w}\_{uv}\leq(1+\epsilon)\sum\_{uv\in
+              E}\,(x(u)-x(v))^2w\_{uv}\$. This improves upon the spectral
+              sparsifiers constructed by Spielman and Teng, which had
+              \$O(n\log^{c}n)\$ edges for some large constant c, and upon the
+              cut sparsifiers of Benczúr and Karger, which only satisfied these
+              inequalities for \$x\in\{0,1\}^V\$. A key ingredient in our
+              algorithm is a subroutine of independent interest: a nearly linear
+              time algorithm that builds a data structure from which we can
+              query the approximate effective resistance between any two
+              vertices in a graph in \$O(\log n)\$ time. }
+}
+
+@misc{koutis-xu-classical-sparsify,
+  author     = {Koutis, Ioannis and Xu, Shen Chen},
+  title      = {Simple
+                Parallel and Distributed Algorithms for Spectral Graph
+                Sparsification},
+  year       = {2016},
+  issue_date = {August 2016},
+  publisher  = {Association for Computing
+                Machinery},
+  address    = {New York, NY, USA},
+  volume     = {3},
+  number     = {2},
+  issn       = {2329-4949},
+  url        = {https://doi.org/10.1145/2948062},
+  doi        = {10.1145/2948062},
+  abstract   = {We describe simple algorithms
+                for spectral graph sparsification, based on iterative
+                computations of weighted spanners and sampling. Leveraging the
+                algorithms of Baswana and Sen for computing spanners, we obtain
+                the first distributed spectral sparsification algorithm in the
+                CONGEST model. We also obtain a parallel algorithm with improved
+                work and time guarantees, as well as other natural distributed
+                implementations. Combining this algorithm with the parallel
+                framework of Peng and Spielman for solving symmetric diagonally
+                dominant linear systems, we get a parallel solver that is
+                significantly more efficient in terms of the total work.},
+  journal    = {ACM Trans. Parallel Comput.},
+  month      = {aug},
+  articleno  = {14},
+  numpages   = {14},
+  keywords   = {Spectral sparsification,
+                sparsest cut, SDD linear systems}
+}
+
+@article{bss-linear-sparsification,
+  author   = {Batson, Joshua and Spielman, Daniel A. and Srivastava, Nikhil},
+  title    = {Twice-Ramanujan Sparsifiers},
+  journal  = {SIAM Journal on
+              Computing},
+  volume   = {41},
+  number   = {6},
+  pages    = {1704-1721},
+  year     = {2012},
+  doi      = {10.1137/090772873},
+  url      = {https://doi.org/10.1137/090772873},
+  eprint   = {https://doi.org/10.1137/090772873},
+  abstract = { We prove that every graph
+              has a spectral sparsifier with a number of edges linear in its
+              number of vertices. As linear-sized spectral sparsifiers of
+              complete graphs are expanders, our sparsifiers of arbitrary graphs
+              can be viewed as generalizations of expander graphs. In
+              particular, we prove that for every \$d>1\$ and every undirected,
+              weighted graph \$G=(V,E,w)\$ on \$n\$ vertices, there exists a
+              weighted graph \$H=(V,F,\tilde{w})\$ with at most \$\lceil
+              d(n-1)\rceil\$ edges such that for every \$x\in\mathbb{R}^{V}\$,
+              \$x^{T}L\_{G}x\leq
+              x^{T}L\_{H}x\leq\bigl(\frac{d+1+2\sqrt{d}}{d+1-2\sqrt{d}}\bigr)\cdot
+              x^{T}L\_{G}x\$, where \$L\_{G}\$ and \$L\_{H}\$ are the Laplacian
+              matrices of \$G\$ and \$H\$, respectively. Thus, \$H\$
+              approximates \$G\$ spectrally at least as well as a Ramanujan
+              expander with \$dn/2\$ edges approximates the complete graph. We
+              give an elementary deterministic polynomial time algorithm for
+              constructing \$H\$. }
+}
+
+% --- add
+@InProceedings{Zha15,
+author="Zhandry, Mark",
+editor="Safavi-Naini, Reihaneh
+and Canetti, Ran",
+title="Secure Identity-Based Encryption in the Quantum Random Oracle Model",
+booktitle="Advances in Cryptology -- CRYPTO 2012",
+year="2012",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="758--775",
+isbn="978-3-642-32009-5"
+}
+
+@inproceedings{CPT15,
+author = {Christiani, Tobias and Pagh, Rasmus and Thorup, Mikkel},
+title = {From Independence to Expansion and Back Again},
+year = {2015},
+isbn = {9781450335362},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2746539.2746620},
+doi = {10.1145/2746539.2746620},
+abstract = {We consider the following fundamental problems: Constructing k-independent hash functions with a space-time tradeoff close to Siegel's lower bound. Constructing representations of unbalanced expander graphs having small size and allowing fast computation of the neighbor function.It is not hard to show that these problems are intimately connected in the sense that a good solution to one of them leads to a good solution to the other one. In this paper we exploit this connection to present efficient, recursive constructions of k-independent hash functions (and hence expanders with a small representation). While the previously most efficient construction (Thorup, FOCS 2013) needed time quasipolynomial in Siegel's lower bound, our time bound is just a logarithmic factor from the lower bound.},
+booktitle = {Proceedings of the Forty-Seventh Annual ACM Symposium on Theory of Computing},
+pages = {813–820},
+numpages = {8},
+keywords = {k-independence, hash functions, bipartite expanders},
+location = {Portland, Oregon, USA},
+series = {STOC '15}
+}
+
+
+
+
+
+
+
+@article{SS11,
+author = {Spielman, Daniel A. and Srivastava, Nikhil},
+title = {Graph Sparsification by Effective Resistances},
+journal = {SIAM Journal on Computing},
+volume = {40},
+number = {6},
+pages = {1913-1926},
+year = {2011},
+doi = {10.1137/080734029},
+
+URL = { 
+        https://doi.org/10.1137/080734029
+    
+},
+eprint = { 
+        https://doi.org/10.1137/080734029
+    
+}
+,
+    abstract = { We present a nearly linear time algorithm that produces high-quality spectral sparsifiers of weighted graphs. Given as input a weighted graph \$G=(V,E,w)\$ and a parameter \$\epsilon>0\$, we produce a weighted subgraph \$H=(V,\tilde{E},\tilde{w})\$ of G such that \$|\tilde{E}|=O(n\log n/\epsilon^2)\$ and all \$x\in\mathbb{R}^V\$ satisfy \$(1-\epsilon)\sum\_{uv\in E}\,(x(u)-x(v))^2w\_{uv}\leq\sum\_{uv\in\tilde{E}}\,(x(u)-x(v))^2\tilde{w}\_{uv}\leq(1+\epsilon)\sum\_{uv\in E}\,(x(u)-x(v))^2w\_{uv}\$. This improves upon the spectral sparsifiers constructed by Spielman and Teng, which had \$O(n\log^{c}n)\$ edges for some large constant c, and upon the cut sparsifiers of Benczúr and Karger, which only satisfied these inequalities for \$x\in\{0,1\}^V\$. A key ingredient in our algorithm is a subroutine of independent interest: a nearly linear time algorithm that builds a data structure from which we can query the approximate effective resistance between any two vertices in a graph in \$O(\log n)\$ time. }
+}
+

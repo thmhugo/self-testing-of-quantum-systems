@@ -1,0 +1,88 @@
+\documentclass[10pt, letterpaper, twoside, twocolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ geometry }
+\geometry{margin=1.5cm, top=2cm, bottom=2cm}
+\usepackage{ amssymb }
+\usepackage{ bbm }
+\usepackage{ braket }
+\usepackage{ mathrsfs }
+\usepackage{ geometry }
+\usepackage{ amsmath }
+\usepackage[alphabetic]{ amsrefs }
+\usepackage[colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,filecolor=black,menucolor=black,runcolor=black,urlcolor=black]{ hyperref }
+\usepackage{ enumitem }
+\usepackage{ graphicx }
+\setlength{\columnsep}{0.8cm}
+\usepackage{ blindtext }
+\usepackage{ caption }
+\usepackage{ bookmark }
+\usepackage{ float }
+\usepackage{ pgf }
+\usepackage{ tikz }
+\usepackage{pgfplots}
+\usetikzlibrary{graphs,graphs.standard,quotes,arrows.meta}
+\usepackage{ authblk }
+\usepackage{ sectsty } % section/subection font size
+\usepackage{ algorithm }
+\usepackage{ algpseudocode }
+\usepackage{ amssymb }
+\usepackage{ bbm }
+\usepackage{ braket }
+\usepackage{ mathrsfs }
+\usepackage{ geometry }
+\usepackage{ amsmath }
+\usepackage[alphabetic]{amsrefs}
+\usepackage{ hyperref }
+\usepackage{bbm}
+\usepackage{diagbox}
+\usepackage{multirow}
+
+\usepackage{ fancyhdr }
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LOE]{\leftmark}
+\fancyfoot[COE]{\thepage}
+
+\fancypagestyle{firststyle}
+{
+   \fancyhf{}
+   \fancyfoot[C]{\thepage}
+   \renewcommand{\headrulewidth}{0pt} % removes horizontal header line
+   \newgeometry{margin=1.5cm, bottom=2cm}
+}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{procedure}{Procedure}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}%[section] to number following the current section
+\newtheorem{fact}{Fact}
+\newtheorem{cor}{Corollary}
+
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\x}{\chi}
+
+% Figures in muticols.
+% Captions with \captionof{figure}{}
+\newenvironment{Figure}
+  {\par\medskip\noindent\minipage{\linewidth}}
+  {\endminipage\par\medskip}
+
+% Flush left the title and authors.
+\makeatletter
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+  \Large{\textbf{\@title}}
+
+  \normalsize\@author
+
+\hspace*{3.1cm}  \@date
+
+\end{flushleft}\egroup
+}
+\makeatother
+
+\renewcommand\Authands{ and }
+
+\sectionfont{\fontsize{12}{12}\selectfont}
+\subsectionfont{\fontsize{11}{11}\selectfont}

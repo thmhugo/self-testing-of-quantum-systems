@@ -1,0 +1,139 @@
+\section{Non-locality detection}\label{Non-locality-det}
+
+\subsection{Linear Programming formulation}\label{primal-LP}
+
+\begin{proposition}
+\label{convex_sum}
+A behaviour $\mathbf{p}$ is local if and only if  it can be written as a convex sum of deterministic behaviours, i.e 
+\begin{equation}
+    \mathbf{p} = \displaystyle \sum_\lambda \mu_\lambda \mathbf{d}_\lambda \ , \ \mu_\lambda \geq 0 \ , \ \displaystyle \sum_\lambda \mu_\lambda = 1
+\end{equation}
+\end{proposition}
+
+\begin{proposition}
+\label{convex_sum2}
+The set $\mathcal L$ of local behaviours is convex, i.e 
+\begin{equation}
+\mathcal P_1, \mathcal P_2  \in \mathcal L 
+\Rightarrow \forall \alpha \in [0, 1] : \alpha \mathcal
+P_1 + (1-\alpha) \mathcal P_2 \in \mathcal L
+\end{equation}
+\end{proposition}
+
+Hence, it is possible to detect a non-local behaviour using linear programming. \\ Let $\mathcal P$ be the behaviour for which one want to learn whether it is local. Let $\mathbbm{1}$ be the behaviour corresponding to the random outcome strategy. It is clear that $\mathbbm{1}$ is a local behaviour. It is possible to write the following linear program 
+\begin{equation}
+    \displaystyle{\min_{\alpha,\overrightarrow{\mu}}} \, \alpha  \\
+
+\left\{
+\begin{array}{rcl}
+ (1-\alpha) \mathcal{P}+ \alpha \mathbbm{1} &\ = \ & \displaystyle{\sum_\lambda} \mu_\lambda \mathbf{d_\lambda} \\
+\displaystyle{\sum_\lambda} \mu_\lambda &\ = \ & 1  \\
+\alpha  &\ \leq \ & 1 \\
+\forall \lambda,\ \mu_\lambda \geq 0\ ,\ \alpha \geq 0  
+\end{array}
+\right.
+\label{eq:primal}
+
+\end{equation}
+
+If the optimal value is $\alpha^* = 0$, then  $\mathcal{P}$ is a local behaviour since it can be written as 
+\begin{equation*}
+    \mathcal{P} = \displaystyle \sum_\lambda \mu^*_\lambda \mathbf{d_\lambda}
+\end{equation*}
+where $\mathbf{\mu^*}$ is the coefficients find at the optimum. \\
+On the other hand, if  $\alpha^* > 0$, $ \mathcal{P} $ is non-local.\\
+
+The variable $\alpha$ is linked to the visibility $V = 1 - \alpha$. 
+
+\subsection{CHSH correlations}\label{CHSH_primal}
+
+The behaviour $\mathcal{P}$ obtained by solving the system of equations induced by the quantum correlations (\textcolor{red}{put ref to introduction}) is 
+\begin{equation*}
+    \begin{tabular}{|c||*{4}{c|}}\hline
+  $\mathcal{P}$   & \multicolumn{4}{ c| }{(x,y)} \\
+  \hline
+$(a,b)$
+&\makebox[3em]{(0,0)}&\makebox[3em]{(0,1)}&\makebox[3em]{(1,0)}&\makebox[3em]{(1,1)}\\\hline\hline
+
+(-1, -1) &$\cos^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\cos^2(\pi/8)/2$\\
+\hline
+(-1, 1) &$\cos^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\cos^2(\pi/8)/2$
+ \\ 
+ \hline
+(1, -1)& $\cos^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\cos^2(\pi/8)/2$
+ \\\hline
+(1, 1) & $\sin^2(\pi/8)/2$&$\cos^2(\pi/8)/2$&$\cos^2(\pi/8)/2$&$\sin^2(\pi/8)/2$\\ 
+ \hline
+    \end{tabular}
+\end{equation*}
+
+
+The linear program \ref{eq:primal} gives an optimal 
+\begin{equation}
+    \alpha^*_{CHSH} = 1 - 1/\sqrt{2}
+\end{equation}, meaning that the visibility is $V^*_{CHSH} = 1/\sqrt{2}$.
+
+
+\subsection{Mayer-Yao's correlations}
+
+
+The behaviour $\mathcal{P}$ obtained by solving the system of equations induced by the quantum correlations (\textcolor{red}{put ref to introduction}) is 
+
+\begin{equation*}
+    \begin{tabular}{|c||*{4}{c|}}\hline
+  $\mathcal{P}$   & \multicolumn{4}{ c| }{$(a,b)$} \\
+  \hline
+$(x,y)$
+&\makebox[3em]{(-1,-1)}&\makebox[3em]{(-1,1)}&\makebox[3em]{(1,-1)}&\makebox[3em]{(1,1)}\\\hline\hline
+
+$(0,0)$ & $1/2$&$0$&$0$&$1/2$\\
+\hline
+$(0,1)$ &  $1/4$&$1/4$ &$1/4$&$1/4$ \\
+\hline
+$(0,2)$ & $\cos^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\cos^2(\pi/8)/2$ \\
+\hline
+$(1,0)$ & $1/4$&$1/4$&$1/4$&$1/4$ \\ 
+\hline
+$(1,1)$ & $1/2$&$0$&$0$&$1/2$ \\
+\hline
+$(1,2)$ &$\cos^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\cos^2(\pi/8)/2$ \\
+\hline
+$(2,0)$ & $\cos^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\cos^2(\pi/8)/2$ \\
+\hline
+$(2,1)$ & $\cos^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\sin^2(\pi/8)/2$&$\cos^2(\pi/8)/2$ \\
+\hline
+$(2,2)$ & $1/2$&$0$&$0$&$1/2$ \\
+ \hline
+    \end{tabular}
+    \end{equation*}
+
+The linear program \ref{eq:primal} gives an optimal 
+\begin{equation}
+    \alpha^*_{MY} = 0.1715 
+\end{equation}, meaning that the visibility is $V^*_{CHSH} = 0.8284$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+\section{Robustness against white noise}
+
+
+The aim of this section is to study robustness against the addition of a white noise. 
+
+Consider a Werner state 
+
+\begin{equation}
+    \rho = \beta \ket{\Phi}\bra{\Phi} + (1-\beta) \mathbbm{1}
+\end{equation}
+
+where $\ket{\Phi}$ is a maximally entangled state and $\mathbbm{1}$ a fully randomized behaviour. 
+
+
+\begin{procedure}
+\begin{enumerate}
+    \item Start with $\beta = 1$ and a given precision $\delta$
+    \item While the result of the primal is non local for the state $\rho$ : $\beta = \beta - \delta $
+\end{enumerate}
+\end{procedure}
+
+Procedure 1 is applied by a dichotomic algorithm in order to have a good precision with the fewer iterations possible. 
+
+
+\input{Plot/plot_noise}
+
+\vspace{1cm}
+
+For the CHSH game, we obtained $\beta^*_{CHSH} = 1/\sqrt{2} $ and for Mayer-Yao's correlations, $\beta^*_{MY}= \approx 0.82$. In each case, one can noticed that $\beta^* = 1 - \alpha^*$ where $\alpha^*$ was the optimal objective obtained in Section .. The study of the robustness was already given by the primal detecting non-local behaviour since it was written using a convex combination of the behaviour and a fully randomized behaviour which is actually a white noise. However, if one wants to study another type of noise, this study would be necessary. 
+
+A conclusion we can draw is that the maximally entangled state is more robust for CHSH correlations than for Mayer-Yao's correlations. 
+
+
