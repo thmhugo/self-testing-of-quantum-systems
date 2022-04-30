@@ -14,12 +14,21 @@
 \usepackage{ sectsty } % section font size
 \sectionfont{\fontsize{14}{15}\selectfont}
 \subsectionfont{\fontsize{12}{15}\selectfont}
+\usepackage{ caption }
+\usepackage{ pgfplots }
+\pgfplotsset{compat=newest}
 
 \renewcommand{\L}{\mathcal{L}}
 \newcommand{\NS}{\mathcal{NS}}
 \newcommand{\Q}{\mathcal{Q}}
 \newcommand{\tr}[1]{\text{tr}\big[#1\big]}
 \newcommand{\note}{\paragraph{Note:}}
+
+
+\newenvironment{Figure}
+  {\par\medskip\noindent\minipage{\linewidth}}
+  {\endminipage\par\medskip}
+
 
 % \usepackage[nottoc, notlof, notlot]{tocbibind}
 \geometry{
@@ -309,6 +318,13 @@ vector is in $\NS$. Considering the additional constraint $CHSH \leq 2 \sqrt 2$
 probabilities that maximally violate the CHSH inequality, and $q = 0.91$ which
 is consistent with what we could expect considering the program
 (\ref{eq:primal}).
+
+\subsection*{Considering a noisy channel}
+
+\begin{Figure}
+\include{noisy-channel.tex}
+\captionof{figure}{Noise resistance of each probability distributions}
+\end{Figure}
 
 \end{multicols}
 
