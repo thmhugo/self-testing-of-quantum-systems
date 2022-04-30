@@ -55,7 +55,7 @@ def ls_quantum_p(m):
     for x in [0, 1]:
         y = 1 - x
         for a, b in product(domain_ab, repeat=2):
-            A[i, indexes_p[a, b, x, y]] = a * b
+            A[i, indexes_p[a, b, x, y]] = a * b*1/m
         B[i] = 0
         i += 1
 
@@ -67,19 +67,19 @@ def ls_quantum_p(m):
 
     for x, y in product(domain_xy, repeat=2):
         for a, b in product(domain_ab, repeat=2):
-            A[i, indexes_p[a, b, x, y]] = (1/m)
+            A[i, indexes_p[a, b, x, y]] = (1)
         B[i] = 1
         i += 1
 
     for x, y in product(domain_xy, repeat=2):
         for a, b in product(domain_ab, repeat=2):
-            A[i, indexes_p[a, b, x, y]] = a
+            A[i, indexes_p[a, b, x, y]] = a*1/m
         B[i] = 0
         i += 1
 
     for x, y in product(domain_xy, repeat=2):
         for a, b in product(domain_ab, repeat=2):
-            A[i, indexes_p[a, b, x, y]] = b
+            A[i, indexes_p[a, b, x, y]] = b*1/m
         B[i] = 0
         i += 1
 
@@ -115,8 +115,8 @@ def vec_d_lambda(l: int):
         list[int]: the vector D_lambda
     """
     dl = []
-    for x, y in list(product(domain_xy, repeat=2)):
-        for a, b in list(product(domain_ab, repeat=2)):
+    for a, b in list(product(domain_ab, repeat=2)):
+        for x, y in list(product(domain_xy, repeat=2)):
             dl.append(int(l[x] == a and l[y + 3] == b))
     return dl
 
@@ -144,10 +144,11 @@ M = np.column_stack(D_l)
 
 a = 1
 stop =0
-step = 1e-3
+step = 1e-2
 
 P = ls_quantum_p(a)
 
+print(P)
 random = np.zeros(len(P))
 for i in range(len(P)) :
     random[i] = 1/4.

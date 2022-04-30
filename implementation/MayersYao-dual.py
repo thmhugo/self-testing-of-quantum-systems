@@ -12,12 +12,11 @@ domain_ab = [-1, 1]
 delta = len(domain_ab)
 m = len(domain_xy)
 
-N = (delta * m) ** 2
+N = (delta*m)**2
 
 indexes_p = collections.defaultdict(int)  # Stores the index of each P(a,b,x,y)
 
-
-i = 0
+i=0
 for a, b in product(domain_ab, repeat=2):
     for x, y in product(domain_xy, repeat=2):
         indexes_p[a, b, x, y] = i
@@ -25,9 +24,6 @@ for a, b in product(domain_ab, repeat=2):
 
 print("Basis P\n")
 print(indexes_p)
-pip install jupyterlab
-
-Note: If you install JupyterLab with conda or mamba, we recommend using the conda-forge channel.
 
 def vec_d_lambda(l: int):
     """Generates the D_lambda vector associated to a lambda.
@@ -39,11 +35,10 @@ def vec_d_lambda(l: int):
         list[int]: the vector D_lambda
     """
     dl = []
-    for x, y in list(product(domain_xy, repeat=2)):
-        for a, b in list(product(domain_ab, repeat=2)):
+    for a, b in list(product(domain_ab, repeat=2)):
+        for x, y in list(product(domain_xy, repeat=2)):
             dl.append(int(l[x] == a and l[y + 3] == b))
     return dl
-
 
 lambdas = []
 for a0, a1, a2 in list(product([-1, 1], repeat=3)):

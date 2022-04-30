@@ -153,56 +153,61 @@ def uniform_p():
 
 # Define the probability distribution we want to test
 p = ls_quantum_p()
-# p = uniform_p()
 
-print("P\n")
-print(p)
+R = np.ones(len(p))
+for i in range(len(p)) :
+    R[i] = 1/4.
 
 # Create a new model
 m = gp.Model()
-m.Params.LogToConsole = 0
+# m.Params.LogToConsole = 0  # Less verbose Guroby output.
 
-R = np.zeros(len(p))
-for i in range(len(R)) :
-    R[i] = 1/4.
-
+Y_p = [m.addVar(name=f"y_p_{i}", vtype="C") for i in range(N)]
+Y_m = [m.addVar(name=f"y_m_{i}", vtype="C") for i in range(N)]
 
 # Create variables
-Y = [m.addVar(name=f"y_{i}", vtype="C") for i in range(N)]
+
 gamma_p = m.addVar(name="gamma_p", vtype="C")
 gamma_m = m.addVar(name="gamma_m", vtype="C")
+
+omega = m.addVar(name="omega", vtype="C")
+
+
 
 m.update()
 
 
 # Set objective function
-m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m    , gp.GRB.MAXIMIZE)
+m.setObjective(-gurobi_dot(p, Y_p)+gurobi_dot(p, Y_m)  + gamma_p - gamma_m -omega    , gp.GRB.MAXIMIZE)
 
 
 # Add constraints
 
-i=0
 for l in lambdas:
-    m.addConstr(gamma_p - gamma_m  + gurobi_dot(Y, vec_d_lambda(l)) <= 0)
+    m.addConstr(gamma_p - gamma_m - gurobi_dot(Y_p, vec_d_lambda(l)) + gurobi_dot(Y_m, vec_d_lambda(l))   <= 0)
 
-m.addConstr(gp.quicksum((-R[i]+p[i])*(Y[i]) for i in range(len(p)))   <= 1)
+m.addConstr(gp.quicksum((R[i]-p[i])*(Y_p[i]-Y_m[i]) for i in range(len(p))) -omega <= 1)
+
 
 m.update()
 # Solve it!
 m.optimize()
+#m.display()
 
 
 print(f"Optimal objective value S = {m.objVal}")
 print(f"Solution values:     \n")
-print(f"                        Y = {[Y[i].X for i in range(N)]}")
+print(f"                        Y_p = {[Y_p[i].X for i in range(N)]}")
+print(f"                        Y_m = {[Y_m[i].X for i in range(N)]}")
 print(f"                        gamma_p = {gamma_p.X }")
 print(f"                        gamma_m = {gamma_m.X }")
+print(f"                        omega = {omega.X }")
+
 print(f"               (recall) P = {p}")
-#
 
 
 print("dot R Y : ")
-L= [(Y[i].X) for i in range(N)]
+L =  [(Y_p[i].X - Y_m[i].X) for i in range(N)]
 print(gurobi_dot(L,R))
 print("dot P Y : ")
 print(gurobi_dot(p,L))

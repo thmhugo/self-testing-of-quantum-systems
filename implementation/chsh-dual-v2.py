@@ -33,8 +33,8 @@ def vec_d_lambda(l: int):
         list[int]: the vector D_lambda
     """
     dl = []
-    for x, y in list(product([0, 1], repeat=2)):
-        for a, b in list(product([-1, 1], repeat=2)):
+    for a, b in list(product([-1, 1], repeat=2)):
+        for x, y in list(product([0, 1], repeat=2)):
             dl.append(int(l[x] == a and l[y + 2] == b))
     return dl
 

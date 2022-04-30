@@ -36,7 +36,7 @@ def quantum_corr():
     for x, y in product(domain_xy, repeat=2):
         for a, b in product(domain_ab, repeat=2):
             A1[i, p[a, b, x, y]] = a * b
-        B1[i] = (-1) ** (x * y)*(0.51)
+        B1[i] = (-1) ** (x * y)/sqrt(2)
         i += 1
 
     # <ψ| A_i x B_j |ψ> = 1
@@ -146,11 +146,11 @@ if k==0 :
 if k==1 :
     P = quantum_corr()
 
-random = np.ones(len(P))
+random = np.zeros(len(P))
 for i in range(len(P)) :
     random[i] = 1/4.
 
-# mu_lambda is a vector of the coeff of the linear combination of the vectors d_lambda
+s# mu_lambda is a vector of the coeff of the linear combination of the vectors d_lambda
 mu_lambda = [m.addVar(name=f"mu_{i}", vtype="C") for i in range(len(lambdas))]
 
 # P_l : vector  of the convex combination of the deterministic points,
@@ -177,14 +177,17 @@ m.update()
 
 # Add the constraints
 for i in range(len(P)):
-    m.addConstr(((1-Q)*P[i]  + Q*random[i]>= P_l[i])  )
+    m.addConstr(((1-Q)*P[i]  + Q*random[i] <= P_l[i])  )
 
 m.addConstr(quicksum(mu_lambda[i] for i in range(len(lambdas))) == 1)
 
+m.addConstr(Q<=1)
 for i in range(len(lambdas)):
     m.addConstr(mu_lambda[i] >= 0)
+# #
+# m.addConstr(Q >= 0 )
+# m.addConstr(Q <= 1 )
 
-#m.addConstr(quicksum(e for e in E) > 2)
 m.update()
 
 # objective = Min Q
@@ -197,10 +200,18 @@ m.optimize()
 # Uncomment to display the system of constraints and the objective solved by Gurobi
 # m.display()
 
-if (m.objVal > 1) :
+if (m.objVal > 0) :
     print("\n--------------")
-    print("\n Objective value greater than one : NON LOCAL")
+    print("\n Objective value greater than 0 : NON LOCAL")
 
-if (m.objVal == 1) :
+if (m.objVal == 0) :
     print("\n--------------")
-    print("\n Objective value is equal to one :  LOCAL")
+    print("\n Objective value is equal to 0 :  LOCAL")
+
+
+
+print(f"Optimal objective value S = {m.objVal}")
+print(f"Solution values:     \n")
+print(f"                        mu_lambda= {[mu_lambda[i].X for i in range(len(lambdas))]}")
+print(f"                        Q = {Q.X }")
+print(f"               (recall) P = {p}")

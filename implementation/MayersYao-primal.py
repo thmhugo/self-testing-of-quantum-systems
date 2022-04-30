@@ -114,8 +114,8 @@ def vec_d_lambda(l: int):
         list[int]: the vector D_lambda
     """
     dl = []
-    for x, y in list(product(domain_xy, repeat=2)):
-        for a, b in list(product(domain_ab, repeat=2)):
+    for a, b in list(product(domain_ab, repeat=2)):
+        for x, y in list(product(domain_xy, repeat=2)):
             dl.append(int(l[x] == a and l[y + 3] == b))
     return dl
 
@@ -197,7 +197,7 @@ m.optimize()
 
 if (m.objVal > 0) :
     print("\n--------------")
-    print("\n Objective value greater than one : NON LOCAL")
+    print("\n Objective value greater than zero : NON LOCAL")
 
 if (m.objVal == 0) :
     print("\n--------------")

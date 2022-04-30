@@ -12,12 +12,11 @@ domain_ab = [-1, 1]
 delta = len(domain_ab)
 m = len(domain_xy)
 
-N = (delta * m) ** 2
+N = (delta*m)**2
 
 indexes_p = collections.defaultdict(int)  # Stores the index of each P(a,b,x,y)
 
-
-i = 0
+i=0
 for a, b in product(domain_ab, repeat=2):
     for x, y in product(domain_xy, repeat=2):
         indexes_p[a, b, x, y] = i
@@ -40,7 +39,6 @@ def vec_d_lambda(l: int):
         for x, y in list(product(domain_xy, repeat=2)):
             dl.append(int(l[x] == a and l[y + 3] == b))
     return dl
-
 
 lambdas = []
 for a0, a1, a2 in list(product([-1, 1], repeat=3)):
@@ -120,14 +118,16 @@ for i in range(len(p)) :
 
 # Create a new model
 m = gp.Model()
-m.Params.LogToConsole = 0  # Less verbose Guroby output.
+# m.Params.LogToConsole = 0  # Less verbose Guroby output.
 
-Y = [m.addVar(name=f"y_{i}", vtype="C") for i in range(N)]
+Y_p = [m.addVar(name=f"y_p_{i}", vtype="C") for i in range(N)]
+Y_m = [m.addVar(name=f"y_m_{i}", vtype="C") for i in range(N)]
 
 # Create variables
 
 gamma_p = m.addVar(name="gamma_p", vtype="C")
 gamma_m = m.addVar(name="gamma_m", vtype="C")
+
 omega = m.addVar(name="omega", vtype="C")
 
 
@@ -136,15 +136,15 @@ m.update()
 
 
 # Set objective function
-m.setObjective(gurobi_dot(p, Y) + gamma_p - gamma_m -omega   , gp.GRB.MAXIMIZE)
+m.setObjective(-gurobi_dot(p, Y_p)+gurobi_dot(p, Y_m)  + gamma_p - gamma_m -omega    , gp.GRB.MAXIMIZE)
 
 
 # Add constraints
 
 for l in lambdas:
-    m.addConstr(gamma_p - gamma_m + gurobi_dot(Y, vec_d_lambda(l)) <= 0)
+    m.addConstr(gamma_p - gamma_m - gurobi_dot(Y_p, vec_d_lambda(l)) + gurobi_dot(Y_m, vec_d_lambda(l))   <= 0)
 
-m.addConstr(gp.quicksum((-R[i]+p[i])*(Y[i]) for i in range(len(p)))  -omega <= 1)
+m.addConstr(gp.quicksum((R[i]-p[i])*(Y_p[i]-Y_m[i]) for i in range(len(p))) -omega <= 1)
 
 
 m.update()
@@ -155,7 +155,8 @@ m.optimize()
 
 print(f"Optimal objective value S = {m.objVal}")
 print(f"Solution values:     \n")
-print(f"                        Y = {[Y[i].X for i in range(N)]}")
+print(f"                        Y_p = {[Y_p[i].X for i in range(N)]}")
+print(f"                        Y_m = {[Y_m[i].X for i in range(N)]}")
 print(f"                        gamma_p = {gamma_p.X }")
 print(f"                        gamma_m = {gamma_m.X }")
 print(f"                        omega = {omega.X }")
@@ -164,7 +165,7 @@ print(f"               (recall) P = {p}")
 
 
 print("dot R Y : ")
-L= [(Y[i].X) for i in range(N)]
+L =  [(Y_p[i].X - Y_m[i].X) for i in range(N)]
 print(gurobi_dot(L,R))
 print("dot P Y : ")
 print(gurobi_dot(p,L))
