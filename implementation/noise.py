@@ -1,99 +1,86 @@
 from math import sqrt
-from operator import is_
-import numpy as np
-from itertools import product
 from gurobipy import *
 from game import *
-from chsh_primal import solve_chsh_primal
+from primal import solve_primal
 from decimal import Context
 
-# inputs (x,y) domain and outputs (a,b) domain
-domain_xy = [0, 1]
-domain_ab = [-1, 1]
 
-game = Game(domain_ab=domain_ab, domain_xy=domain_xy)
-
-# M is the transpose of D_l , one column = one deterministic behavior d_lambda
-M = np.column_stack(game.d_lambda)
+noisy_p = lambda a, P: [a * p + (1 - a) * 0.25 for p in P]
 
 
-def is_p_quantum(game, P):
-    """_summary_
-
-    Args:
-        game (_type_): _description_
-        P (_type_): _description_
-
-    Returns:
-        True: if the given behavior is local
-    """
-    R = np.array(uniform_noise(game))
-
-    # mu_lambda is a vector of the coeff of the linear combination of the
-    # vectors d_lambda
-    mu_lambda = [game.model.addVar(name=f"mu_{i}", vtype="C") for i in range(game.N)]
-
-    # P_l : vector  of the convex combination of the deterministic points, i.e
-    # P_l = sum(mu_lambda * vec_d_lambda) where the sum is on the lambdas
-    P_l = np.dot(M, mu_lambda)
-    E = [0] * 4
-    i = 0
-    for x, y in product(domain_xy, repeat=2):
-        s = 0
-        for a, b in product(domain_ab, repeat=2):
-            s += a * b * P[game.indexes_p[a, b, x, y]]
-        E[i] = (-1) ** (x * y) * s
-        i += 1
-
-    # add a variable Q (visibility)
-    Q = game.model.addVar(name="Q", vtype="C")
-
-    # update the model with the newly defined variables
-    game.model.update()
-
-    # Add the constraints
-    for i in range(len(P)):
-        game.model.addConstr(((1 - Q) * P[i] + Q * R[i] >= P_l[i]))
-
-    game.model.addConstr(gp.quicksum(mu_lambda[i] for i in range(game.N)) == 1)
-
-    for i in range(game.N):
-        game.model.addConstr(mu_lambda[i] >= 0)
-
-    game.model.setObjective(Q, GRB.MINIMIZE)
-    game.model.update()
-    game.model.optimize()
-
-    return (not (game.model.objVal == 1), sum(e for e in E))
-
-if __name__ == "__main__":
-    noisy_p = lambda a, P: [a * p + (1 - a) * 0.25 for p in P]
-
-    P = quantum_probability_distribution_chsh(game)
-
-    prec = 14
+def search_minimum_a(game, P, prec=14):
     context = Context(prec=prec)
     upper_bound = 1
     lower_bound = 0
-    last = 0
+    last_value = 0
     n = 0
 
-    # Dichotomic search for 'a'
     while True:
         n += 1
         a = (upper_bound + lower_bound) / 2.0
-        is_q, chsh = is_p_quantum(P=noisy_p(a, P), game=game)
-        if chsh > 2:
+        obj = solve_primal(P=noisy_p(a, P), game=game)
+
+        if obj > 0:  # Quantum probability distribution
             upper_bound = a
         else:
             lower_bound = a
 
-        if abs(last - context.create_decimal(a)) < 10 ** (-prec):
-            break
-        last = context.create_decimal(a)
+        if abs(last_value - context.create_decimal(a)) < 10 ** (-prec):
+            break  # Quite a bad way to exit a loop
 
-    print(f"Iterated {n} times before stopping.")
-    print(f"            {a = }")
-    print(f"  {1 / sqrt(2) = }\n")
-    solve_chsh_primal(game, noisy_p(a, P))  # Local behavior
-    solve_chsh_primal(game, noisy_p(a + 10e-3, P))  # Something just above the local one
+        last_value = context.create_decimal(a)
+
+    return (n, a)
+
+
+if __name__ == "__main__":
+    chsh_game = Game(domain_ab=[-1, 1], domain_xy=[0, 1])
+    my_game = Game(domain_ab=[-1, 1], domain_xy=[0, 1, 2])
+    chsh_P = quantum_probability_distribution_chsh(chsh_game)
+    my_P = quantum_probability_distribution_mayers_yao(my_game)
+
+    n, a = search_minimum_a(chsh_game, chsh_P)
+
+    print(f"[CHSH] Iterated {n} times before stopping.")
+    print(f"[CHSH]             {a = }")
+    print(f"[CHSH]   {1 / sqrt(2) = }\n")
+    print(solve_primal(chsh_game, noisy_p(a, chsh_P)))  # "Local" behavior
+    print(
+        solve_primal(chsh_game, noisy_p(a + 10e-5, chsh_P))
+    )  # Something just above the local one
+
+    n, a = search_minimum_a(my_game, my_P, prec=30)
+
+    print(f"[MY] Iterated {n} times before stopping.")
+    print(f"[MY]             {a = }")
+
+    print(solve_primal(my_game, noisy_p(a, my_P)))  # "Local" behavior
+    print(
+        solve_primal(my_game, noisy_p(a + 10e-5, my_P))
+    )  # Something just above the local one
+
+    # We could draw stuff with this :
+    # a = 1
+    # step = 10e-4
+
+    # A = []
+    # Q = []
+    # chsh = 3
+
+    # is_q = True
+
+    # while is_q:
+    #     obj = solve_chsh_primal(P=noisy_p(a, P), game=Game(domain_xy, domain_ab))
+    #     is_q = obj > 0
+    #     chsh = chsh_value(game, noisy_p(a, P))
+    #     print(is_q, obj, chsh)
+    #     A.append(a)
+    #     Q.append(chsh)
+    #     a -= step
+    # print(noisy_p(a, P))
+    # time.sleep(10e-2)
+
+    # import matplotlib.pyplot as plt
+
+    # plt.plot(A, Q)
+    # plt.show()
