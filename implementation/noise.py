@@ -1,8 +1,10 @@
+from cProfile import label
 from math import sqrt
 from gurobipy import *
 from game import *
 from primal import solve_primal
 from decimal import Context
+import tikzplotlib
 
 
 noisy_p = lambda a, P: [a * p + (1 - a) * 0.25 for p in P]
@@ -39,6 +41,8 @@ if __name__ == "__main__":
     chsh_P = quantum_probability_distribution_chsh(chsh_game)
     my_P = quantum_probability_distribution_mayers_yao(my_game)
 
+    ns_P = no_signaling_probability_distribution_chsh(chsh_game)
+    print(chsh_value(chsh_game, ns_P))
     n, a = search_minimum_a(chsh_game, chsh_P)
 
     print(f"[CHSH] Iterated {n} times before stopping.")
@@ -60,27 +64,44 @@ if __name__ == "__main__":
     )  # Something just above the local one
 
     # We could draw stuff with this :
-    # a = 1
-    # step = 10e-4
+    a = 1
+    step = 10e-3
 
-    # A = []
-    # Q = []
-    # chsh = 3
+    A = []
+    chsh_obj, my_obj = [], []
+    chsh = 3
 
-    # is_q = True
+    while a > 0:
+        # obj =
+        chsh = chsh_value(chsh_game, noisy_p(a, chsh_P))
+        A.append(a)
+        chsh_obj.append(solve_primal(P=noisy_p(a, chsh_P), game=chsh_game))
+        my_obj.append(solve_primal(P=noisy_p(a, my_P), game=my_game))
+        print(chsh, end="\r")
+        a -= step
 
-    # while is_q:
-    #     obj = solve_chsh_primal(P=noisy_p(a, P), game=Game(domain_xy, domain_ab))
-    #     is_q = obj > 0
-    #     chsh = chsh_value(game, noisy_p(a, P))
-    #     print(is_q, obj, chsh)
-    #     A.append(a)
-    #     Q.append(chsh)
-    #     a -= step
-    # print(noisy_p(a, P))
-    # time.sleep(10e-2)
+    import matplotlib.pyplot as plt
 
-    # import matplotlib.pyplot as plt
+    plt.plot(A, my_obj, c="m", label="MY")
+    plt.plot(
+        search_minimum_a(my_game, my_P)[1],
+        0,
+        "mo",
+        label=r"$\alpha \approx 0.82$",
+    )
 
-    # plt.plot(A, Q)
+    plt.plot(A, chsh_obj, c="b", label="CHSH")
+    plt.plot(
+        search_minimum_a(chsh_game, chsh_P)[1],
+        0,
+        "bo",
+        label=r"$\alpha = \frac{1}{\sqrt{2}}$",
+    )
+
+    plt.xlabel(r"accuracy $\alpha$")
+    plt.ylabel("primal objective")
+
+    plt.legend()
+
     # plt.show()
+    tikzplotlib.save("../notes/noisy-channel.tex")
