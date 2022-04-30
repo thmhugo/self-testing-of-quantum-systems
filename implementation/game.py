@@ -53,6 +53,22 @@ def quantum_probability_distribution_chsh(game):
     return list(np.linalg.solve(A, B))
 
 
+def no_signaling_probability_distribution_chsh(game):
+    def prob(a, b, x, y):
+        """Returns the winning probability P(a,b|x,y)."""
+        if a == -1:
+            a = 0
+        if b == -1:
+            b = 0
+        return int((a + b) % 2 == x * y) * 0.5
+
+    _p = []
+    for x, y in product(game.domain_xy, repeat=2):
+        for a, b in product(game.domain_ab, repeat=2):
+            _p.append(prob(a, b, x, y))
+    return _p
+
+
 def quantum_probability_distribution_mayers_yao(game):
     """_summary_
 
