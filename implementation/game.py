@@ -62,12 +62,12 @@ def quantum_probability_distribution_mayers_yao(game):
     Returns:
         _type_: _description_
     """
-    N = (game.delta * game.m) ** 2
+    n = (game.delta * game.m) ** 2
 
     # Constraint Coefficients
-    A = np.zeros([N, N])
+    A = np.zeros([n, n])
     # Left Side
-    B = np.zeros([N])
+    B = np.zeros([n])
     i = 0
 
     for z in game.domain_xy:
@@ -136,6 +136,27 @@ def gurobi_dot(A, B):
     return gp.quicksum(A[i] * B[i] for i in range(max(len(A), len(B))))
 
 
+def chsh_value(game, P):
+    """_summary_
+
+    Args:
+        game (_type_): _description_
+        P (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    E = [0] * 4
+    i = 0
+    for x, y in product(game.domain_xy, repeat=2):
+        s = 0
+        for a, b in product(game.domain_ab, repeat=2):
+            s += a * b * P[game.indexes_p[a, b, x, y]]
+        E[i] = (-1) ** (x * y) * s
+        i += 1
+    return sum(e for e in E)
+
+
 class Game:
     def __init__(self, domain_xy, domain_ab):
         """_summary_
@@ -162,8 +183,8 @@ class Game:
 
         self.indexes_p = defaultdict(int)  # Stores the index of each P(a,b,x,y)
         i = 0
-        for a, b in product(self.domain_ab, repeat=2):
-            for x, y in product(self.domain_xy, repeat=2):
+        for x, y in product(self.domain_xy, repeat=2):
+            for a, b in product(self.domain_ab, repeat=2):
                 self.indexes_p[a, b, x, y] = i
                 i += 1
 
@@ -172,6 +193,10 @@ class Game:
         for l in self.lambdas:
             self.d_lambda[i] = np.array(self.vec_d_lambda(l))
             i += 1
+
+        # M is the transpose of d_lambda , one column = one deterministic
+        # behavior d_lambda
+        self.M = np.column_stack(self.d_lambda)
 
     def vec_d_lambda(self, l: int):
         """Generates the D_lambda vector associated to a lambda.
