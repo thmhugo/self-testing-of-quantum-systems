@@ -1,15 +1,20 @@
 from math import sqrt
-import gurobipy as gp
+from itertools import product
+import collections
+from gurobipy import *
 import numpy as np
 from game import *
 
 
-def solve_chsh_dual(game, P):
+def solve_dual(game, P):
     """_summary_
 
     Args:
         game (_type_): _description_
         P (_type_): _description_
+
+    Returns:
+        _type_: _description_
     """
     R = np.array(uniform_noise(game))
 
@@ -32,7 +37,9 @@ def solve_chsh_dual(game, P):
     game.model.addConstr(
         gp.quicksum((-R[i] + P[i]) * (Y[i]) for i in range(len(P))) <= 1
     )
+
     game.model.update()
+
     game.model.optimize()
 
     print(f"Optimal objective value S = {game.model.objVal}")
@@ -47,7 +54,12 @@ def solve_chsh_dual(game, P):
     print("P•Y : ", gurobi_dot(P, L))
     print("Y•Y : ", gurobi_dot(L, L))
 
+    return game.model.objVal
+
 
 if __name__ == "__main__":
     game = Game(domain_xy=[0, 1], domain_ab=[-1, 1])
-    solve_chsh_dual(game, quantum_probability_distribution_chsh(game=game))
+    solve_dual(game, quantum_probability_distribution_chsh(game=game))
+    print("----------")
+    game = Game(domain_ab=[-1, 1], domain_xy=[0, 1, 2])
+    solve_dual(game, quantum_probability_distribution_mayers_yao(game=game))
