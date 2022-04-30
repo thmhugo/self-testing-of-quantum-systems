@@ -149,7 +149,15 @@ def gurobi_dot(A, B):
     Returns:
         _type_: _description_
     """
-    return gp.quicksum(A[i] * B[i] for i in range(max(len(A), len(B))))
+    if len(A) != len(B):
+        raise ValueError(
+            f"A and B should have the same length. Here {len(A) = } != {len(B) = }"
+        )
+    return gp.quicksum(A[i] * B[i] for i in range(len(A)))
+
+
+def evaluated_gurobi_dot(A, B):
+    return gurobi_dot(A, B).getConstant()
 
 
 def chsh_value(game, P):

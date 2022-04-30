@@ -3,6 +3,7 @@ from itertools import product
 import collections
 from gurobipy import *
 import numpy as np
+from sympy import EvaluationFailed
 from game import *
 
 
@@ -17,9 +18,9 @@ def solve_dual(game, P):
         _type_: _description_
     """
     R = np.array(uniform_noise(game))
-
+    N = (game.delta * game.m) ** 2  # Could be stored in Game.
     # Create variables
-    Y = [game.model.addVar(name=f"y_{i}", vtype="C") for i in range(game.N)]
+    Y = [game.model.addVar(name=f"y_{i}", vtype="C") for i in range(N)]
     gamma_p = game.model.addVar(name="gamma_p", vtype="C")
     gamma_m = game.model.addVar(name="gamma_m", vtype="C")
 
@@ -45,14 +46,14 @@ def solve_dual(game, P):
     print(f"Optimal objective value S = {game.model.objVal}")
     print(f"Solution values:")
     print(f"               (recall) P = \n{np.array(P)}")
-    print(f"                   Y      = \n{np.array([Y[i].X for i in range(game.N)])}")
+    print(f"                   Y      = \n{np.array([Y[i].X for i in range(N)])}")
     print(f"                  gamma_p = {gamma_p.X }")
     print(f"                  gamma_m = {gamma_m.X }")
 
     L = [y.X for y in Y]
-    print("R•Y : ", gurobi_dot(L, R))
-    print("P•Y : ", gurobi_dot(P, L))
-    print("Y•Y : ", gurobi_dot(L, L))
+    print("R•Y :", evaluated_gurobi_dot(L, R))
+    print("P•Y :", evaluated_gurobi_dot(P, L))
+    print("Y•Y :", evaluated_gurobi_dot(L, L))
 
     return game.model.objVal
 
