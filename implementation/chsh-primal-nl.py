@@ -135,26 +135,46 @@ def find_optimal_p(game):
 
 
 def using_bit_mask(game):
+
     use_qp_mask = [
         True,
-        False,
-        False,
-        False,
         True,
-        False,
-        False,
-        False,
         True,
-        False,
-        False,
-        False,
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
         True,
         False,
         False,
         False,
     ]
 
-    m, chsh, P, Q = get_model(game)
+    P = [
+        0.42677669529663687,
+        0.07322330470336313,
+        0.07322330470336313,
+        0.42677669529663687,
+        0.42677669529663687,
+        0.07322330470336313,
+        0.07322330470336313,
+        0.42677669529663687,
+        0.42677669529663687,
+        0.07322330470336313,
+        0.07322330470336313,
+        0.42677669529663687,
+        0.07322330470336313,
+        0.42677669529663687,
+        0.42677669529663687,
+        0.07322330470336313,
+    ]
+
+    m, chsh, _, Q = get_model(game)
 
     previous_chsh = 0
     run = True
@@ -171,7 +191,7 @@ def using_bit_mask(game):
             if use_qp_mask[i]:
                 game.model.addConstr(P[i] == qp[i])
 
-        bound = game.model.addConstr(chsh >= 2 * sqrt(2) - upper_bound)
+        bound = game.model.addConstr(chsh >= 2 - upper_bound)
 
         game.model.update()
         game.model.setObjective(chsh, GRB.MINIMIZE)
@@ -194,6 +214,7 @@ def using_bit_mask(game):
         )
         run = chsh.getValue() >= 1 and previous_chsh != chsh.getValue()
         previous_chsh = chsh.getValue()
+    print(chsh.getValue())
 
     print(f"Objective = {game.model.objVal}")
     print(f"{Q.X = }")
@@ -212,4 +233,5 @@ def using_bit_mask(game):
 
 if __name__ == "__main__":
     chsh_game = Game(domain_ab=[-1, 1], domain_xy=[0, 1])
-    find_optimal_p(chsh_game)
+    # find_optimal_p(chsh_game)
+    using_bit_mask(chsh_game)

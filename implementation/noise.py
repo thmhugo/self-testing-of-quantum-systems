@@ -10,7 +10,7 @@ import tikzplotlib
 noisy_p = lambda a, P: [a * p + (1 - a) * 0.25 for p in P]
 
 
-def search_minimum_a(game, P, prec=14):
+def search_minimum_a(game, P, prec=20):
     context = Context(prec=prec)
     upper_bound = 1
     lower_bound = 0
@@ -53,7 +53,7 @@ if __name__ == "__main__":
         solve_primal(chsh_game, noisy_p(a + 10e-5, chsh_P))
     )  # Something just above the local one
 
-    n, a = search_minimum_a(my_game, my_P, prec=30)
+    n, a = search_minimum_a(my_game, my_P)
 
     print(f"[MY] Iterated {n} times before stopping.")
     print(f"[MY]             {a = }")

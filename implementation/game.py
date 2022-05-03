@@ -197,7 +197,7 @@ class Game:
 
         self.lambdas = []
 
-        for a in list(product(domain_ab, repeat=self.offset)):
+        for a in list(product(self.domain_ab, repeat=self.offset)):
             for b in list(product(self.domain_ab, repeat=self.offset)):
                 self.lambdas.append((*a, *b))
 
